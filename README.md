@@ -309,3 +309,40 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
   - Usar funciones resolve de ruta
   - Crear el servicio de autorización
 - **Resumen**
+
+
+## Capítulo 8 - Construya sus propias directivas
+
+- **¿Qué son las directivas AngularJS?**
+  - Comprendiendo las directivas integradas
+  - Usar directivas en el marcado HTML
+- **Siguiendo el ciclo de vida de compilación de la directiva**
+- **Escribir pruebas unitarias para las directivas**
+- **Definir una directiva**
+- **Estilizar botones con directivas**
+  - Escribiendo una directiva botón
+- **Entendiendo directivas widget AngularJS**
+  - Escribiendo una directiva de paginación
+  - Escribir pruebas para la directiva de paginación
+  - Usar una plantilla HTML en una directiva
+  - Aislar nuestra directiva de su ámbito padre
+    - Interpolando el atributo con @
+    - Enlazando datos al el atributo con =
+    - Proporcionando una expresión de retrollamada en el atributo con &
+  - Implementar el widget
+  - Añadir una retrollamada selectPage a la directiva
+- **Creando una directiva de validación personalizada**
+  - Requiriendo una directiva controladora
+    - Haciendo el controlador opcional
+    - Buscando ancestros o padres para el controlador
+  - Trabajando con ngModelController
+  - Escribiendo pruebas de directivas de validación personalizada
+  - Implementando una directiva de validación personalizada
+- **Crear un validador de modelo asíncrono**
+  - Simular el servicio User
+  - Escribir pruebas para validación asíncrona
+  - Implementado la directiva de validación asíncrona
+- **Envolviendo la directiva datepicker de jQueryUI**
+  - Escribir pruebas para directivas que envuelven librerías
+  - Implementando la directiva datepicker jQuery
+- **Resumen**
