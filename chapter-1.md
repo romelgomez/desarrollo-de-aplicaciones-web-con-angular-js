@@ -103,7 +103,7 @@ obtener la primera impresión de la estructura y la sintaxis que emplea.
 
 En primer lugar, tenemos que incluir la biblioteca AngularJS para que nuestro ejemplo funcione correctamente en un navegador web. Es muy fácil como AngularJS, en su forma más simple, es empaquetado como un único archivo JavaScript
 
-> La biblioteca AngularJS es una relativamente pequeña: versión miniaturizada y comprimida que tiene un tamaño de alrededor de 30 KB. La versión miniaturizada sin compresión gzip tiene un tamaño de alrededor de 80 KB. No requiere ninguna dependencia de terceros.
+> `NOTA:` La biblioteca AngularJS es una relativamente pequeña versión miniaturizada y comprimida que tiene un tamaño de alrededor de 30 KB. La versión miniaturizada sin compresión gzip tiene un tamaño de alrededor de 80 KB. No requiere ninguna dependencia de terceros.
 >
 > Para los ejemplos cortos de este libro vamos a utilizar una versión no miniaturizada, amistosa con el desarrollador, alojada en la red de entrega de contenido de Google (CDN). También el código fuente de todas las versiones de AngularJS también puede ser descargado desde http://code.angularjs.org.
 

@@ -12,8 +12,8 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
 
 - [**Conocé AngularJS**](/chapter-1.md#conocé-angularjs)
   - [Familiarizarse con el marco de trabajo](/chapter-1.md#familiarizarse-con-el-marco)
-  - Encuentre su camino en el proyecto
-    - La comunidad
+  - [Encuentre su camino en el proyecto](/chapter-1.md#encuentre-su-camino-en-el-proyecto)
+    - [La comunidad](/chapter-1.md#la-comunidad)
     - Recursos de aprendizaje en línea
   - Bibliotecas y extensiones
   - Herramientas
