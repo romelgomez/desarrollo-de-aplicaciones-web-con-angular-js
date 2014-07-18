@@ -681,59 +681,49 @@ Primeramente un `provider` es una función que debe retornar un objeto que conte
 
 A continuación, un objeto retornado por una funcion proveedora puede tener métodos y propiedades adicionales. Aquellas que estén expuestas, es posible establecer un conjunto de opciones antes que el método `$get` (`factory`) sea invocado. En efecto, nosotros podemos todavía establecer la propiedad de configuración `maxLen`, pero no estamos obligados en adelante ha hacerlo.  Por otra parte, es posible tener una lógica de configuración más compleja, ya que nuestros servicios pueden exponer metodos de configuracion y no solo simples valores de configuración. 
 
-### Ciclos de vida de los Modulos. 
+### Ciclos de vida de los Modulos
+
+En párrafos anteriores, nosotros pudimos ver que angular soporta varias recetas para la creacion de objetos. Un `provider` es una receta del tipo especial, ya que puede ser ademas configurada antes de producir cualquier instancias de objetos. Para soportar efectivamente los proveedores, AngularJs divide el ciclo de vida de los modulos en dos fases, que son las siguientes.   
+
+- **La fase de configuración**: Esta es la fase donde todas las recetas son coleccionadas y configuradas. 
+- **La fase de ejecución**: Esta es la fase donde nosotros podemos ejecutar cualquier lógica después de la creación de instancias.
 
 
-En párrafos anteriores, nosotros pudimos ver que angular soporta varias recetas para la creacion de objetos. Un provider es una receta del tipo especial, ya que puede ser ademas configurada antes de producir cualquier instancias de objetos. Para soportar efectivamente los proveedores, AngularJs divide el ciclo de vida de los modulos en dos fases, que son las siguientes.   
-
-La fase de configuración: Esta es la fase donde todas las recetas son coleccionadas y configuradas. 
-La fase de ejecución: Esta es la fase donde nosotros podemos ejecutar cualquier lógica después de la creación de instancias.
-
-
-La fase de configuración  
+### La fase de configuración
 
 Los proveedores pueden ser configurados solo durante la primera fase de configuración. Sin duda no tiene sentido cambiar una receta luego de que los objetos estan terminados, ¿no?    Los proveedores pueden ser configurados tal y como se muestra en el siguiente código: 
 
-
+```
 myMod.config(function(notificationsServiceProvider){
- 	notificationsServiceProvider.setMaxLen(5);
+  notificationsServiceProvider.setMaxLen(5);
 });
+```
 
-Lo importante a notar aquí es una dependencia en los objetos notificationsServiceProvider con el sufijo Provider representan las recetas que estan lista para ser ejecutadas. La fase de configuración nos permite hacer ajustes de último momento en la fórmula de creación de objetos. 
-La fase de ejecución. 
+Lo importante a notar aquí es una dependencia en los objetos `notificationsServiceProvider` con el sufijo `Provider` representan las recetas que estan lista para ser ejecutadas. La fase de configuración nos permite hacer ajustes de último momento en la fórmula de creación de objetos. 
 
- 	La fase de ejecución nos permite registrar cualquier trabajo que debería ser ejecutado al inicio de la aplicación. Uno podría pensar en la fase de ejecución como el equivalente del método principal en otros lenguajes de programación. La gran diferencia es que los módulos AngularJS pueden tener múltiples configuraciones y bloques en ejecución. En este sentido, no hay siquiera un solo punto de entrada (una aplicación en ejecución es una verdadera colección de objetos colaboradores).
+### La fase de ejecución
 
-Para ilustrar como la fase de ejecución puede ser útil, vamos a imaginar que necesitamos mostrar el tiempo de inicio o el tiempo de actividad de las aplicaciones a los usuarios. Para soportar este requerimiento, podemos establecer el tiempo de inicio de la aplicaciones como una propiedad en la instancia  $rootScope de la siguiente forma: 
+La fase de ejecución nos permite registrar cualquier trabajo que debería ser ejecutado al inicio de la aplicación. Uno podría pensar en la fase de ejecución como el equivalente del método principal en otros lenguajes de programación. La gran diferencia es que los módulos AngularJS pueden tener múltiples configuraciones y bloques en ejecución. En este sentido, no hay siquiera un solo punto de entrada (una aplicación en ejecución es una verdadera colección de objetos colaboradores).
 
+Para ilustrar como la fase de ejecución puede ser útil, vamos a imaginar que necesitamos mostrar el tiempo de inicio o el tiempo de actividad de las aplicaciones a los usuarios. Para soportar este requerimiento, podemos establecer el tiempo de inicio de la aplicaciones como una propiedad en la instancia  `$rootScope` de la siguiente forma: 
+
+```
 angular.module('upTimeApp', []).run(function($rootScope) {
-$rootScope.appStarted = new Date();
+  $rootScope.appStarted = new Date();
 });
+```
 
 Y luego recuperar el valor desde cualquier plantilla, como se muestra en el siguiente código: 
 
+```
 Application started at: {{appStarted}}
+```
 
-TIP: En el ejemplo mostramos el bloque en ejecución en acción donde estamos estableciendo propiedades directamente en la instancia $rootScope. Es importante darse cuenta que la instancia $rootScope es una variable global y sufre de todos los problemas del ámbito global. La 
-instancia $rootScope debería ser usada para definir nuevas propiedades sólo con moderación y sólo para la las propiedades que necesiten ser accesible desde muchas plantillas. 
+`TIP` En el ejemplo mostramos el bloque en ejecución en acción donde estamos estableciendo propiedades directamente en la instancia `$rootScope`. Es importante darse cuenta que la instancia `$rootScope` es una variable global y sufre de todos los problemas del ámbito global. La instancia `$rootScope` debería ser usada para definir nuevas propiedades sólo con moderación y sólo para la las propiedades que necesiten ser accesible desde muchas plantillas. 
 
-
-
-
-
-
-
-
-
-
-
-
-Diferentes fases y diferentes métodos de registro. 
+### Diferentes fases y diferentes métodos de registro 
 
 Vamos a resumir los diferentes métodos para crear objetos y como esos métodos corresponden a las fases del ciclo de vida del módulo:
-
-
-
 
 ¿Qué se registró?
 ¿Es inyectable durante la fase de configuración? 
@@ -759,7 +749,7 @@ Un nuevo objeto creado por la función fabricante $get
 si
 no
 
-Modulos que depende de otros modulos
+### Modulos que depende de otros modulos
 
 No solo AngularJs hace un excelente trabajo administrando las dependencias de los objetos, también se encarga de las dependencias de los modulos. Nosotros podemos fácilmente agrupar servicios en un módulo, y por lo tanto crear librerías de servicios (potencialmente reutilizables). 
 
