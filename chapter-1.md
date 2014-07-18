@@ -1,56 +1,3 @@
-# Capítulo 1: Angular Zen
-
-- **Conocé AngularJS**
-  - Familiarizarse con el marco de trabajo
-  - Encuentre su camino en el proyecto
-    - La comunidad
-    - Recursos de aprendizaje en línea
-  - Bibliotecas y extensiones
-  - Herramientas
-    - Batarang
-    - Plunker y jsFiddle
-    - Extensiones y plugins IDE
-- **Curso intensivo AngularJS**
-  - Hola Mundo - el ejemplo AngularJS
-    - Enlace de datos de doble vía o bidireccional
-  - El patrón MVC en AngularJS
-    - Vista panorámica
-    - Ámbito
-      - Controlador
-      - Modelo
-      - Ámbitos en profundidad
-      - Jerarquía de ámbitos
-      - Jerarquía de ámbitos y la herencia
-      - Los peligros de la herencia a través de la jerarquía de ámbitos
-      - La Jerarquía de los ámbitos y el sistema de eventos
-      - Ciclo de vida del ámbito
-    - Vista
-      - Declarativa vista de plantilla - la lógica del controlador imperativo
-  - Módulos e inyección de dependencias
-    - Módulos en AngularJS
-    - Objetos Colaboradores
-      - Inyección de dependencias
-      - Beneficios de la inyección de dependencias
-    - Registrando servicios
-      - Valores
-      - Servicios
-      - Fábricas
-      - Constantes
-      - Proveedores
-    - Ciclos de vida de los Módulos
-      - La fase de configuración
-      - La fase de ejecución
-      - Diferentes fases y diferentes métodos de registro
-    - Módulos que depende de otros módulos
-      - Servicios y su visibilidad  a lo largo de los módulos
-      - Por que usar módulos AngularJS
-- **AngularJs y el resto del mundo**
-  - JQuery y AngularJS
-    - Manzanas y naranjas
-  - Un vistazo al futuro
-- **Resumen**
-
-
 ## Capítulo 1. Angular Zen
 
 Este capítulo sirve como una introducción a AngularJS, tanto el marco como el proyecto detrás de él. En primer lugar vamos a echar un breve vistazo a el proyecto en si; quien lo conduce, dónde encontrar el código fuente y la documentación, como pedir ayuda, y así sucesivamente.
@@ -59,7 +6,7 @@ La mayor parte de este capítulo es una introducción al marco AngularJS, son co
 
 AngularJS es un marco único que sin duda le dará forma al área del desarrollo web en los próximos años. Es por eso que la última parte de este capítulo explica qué hace AngularJS tan especial, cómo se compara con otros marcos existentes, y lo que podemos esperar de él en el futuro.
 
-### En este capítulo se cubren los siguientes temas:
+En este capítulo se cubren los siguientes temas:
 
 - Cómo escribir una simple aplicación Hola Mundo en AngularJs. En el proceso de hacerlo, se llegara a saber dónde encontrar el código fuente del marco, la documentación y la comunidad.
 - Familiarizarse con los elementos básicos de cualquier aplicación AngularJS: plantillas con  directivas, ámbitos y controladores.
@@ -156,9 +103,9 @@ obtener la primera impresión de la estructura y la sintaxis que emplea.
 
 En primer lugar, tenemos que incluir la biblioteca AngularJS para que nuestro ejemplo funcione correctamente en un navegador web. Es muy fácil como AngularJS, en su forma más simple, es empaquetado como un único archivo JavaScript
 
-> La biblioteca AngularJS es una relativamente pequeña: la versión miniaturizada y comprimida tiene un tamaño de alrededor de 30 KB. Una versión miniaturizada sin compresión gzip tiene un tamaño de alrededor de 80 KB. No requiere ninguna dependencia de terceros.
+> La biblioteca AngularJS es una relativamente pequeña: versión miniaturizada y comprimida que tiene un tamaño de alrededor de 30 KB. La versión miniaturizada sin compresión gzip tiene un tamaño de alrededor de 80 KB. No requiere ninguna dependencia de terceros.
 >
-> Para los ejemplos cortos en este libro vamos a utilizar una versión no miniaturizada, amistosa con el desarrollador, alojada en la red de entrega de contenido de Google (CDN). También el código fuente de todas las versiones de AngularJS también puede ser descargado desde http://code.angularjs.org.
+> Para los ejemplos cortos de este libro vamos a utilizar una versión no miniaturizada, amistosa con el desarrollador, alojada en la red de entrega de contenido de Google (CDN). También el código fuente de todas las versiones de AngularJS también puede ser descargado desde http://code.angularjs.org.
 
 Incluir la biblioteca AngularJS no es suficiente para tener un ejemplo en ejecución. Necesitamos arrancar nuestra mini aplicación. La manera más fácil de hacer esto es mediante el uso de un atributo HTML personalizado `ng-app`.
 

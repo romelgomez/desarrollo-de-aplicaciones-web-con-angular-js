@@ -8,10 +8,10 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
 
 ## Prólogo
 
-## Capítulo 1: Angular Zen
+## [Capítulo 1: Angular Zen](/chapter-1.md#capítulo-1-angular-zen)
 
-- **Conocé AngularJS**
-  - Familiarizarse con el marco de trabajo
+- [**Conocé AngularJS**](/chapter-1.md#conocé-angularjs)
+  - [Familiarizarse con el marco de trabajo](/chapter-1.md#familiarizarse-con-el-marco)
   - Encuentre su camino en el proyecto
     - La comunidad
     - Recursos de aprendizaje en línea
