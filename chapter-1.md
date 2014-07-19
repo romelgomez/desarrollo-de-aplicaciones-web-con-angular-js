@@ -741,9 +741,11 @@ Vamos a resumir los diferentes métodos para crear objetos y como esos métodos 
 
 No solo AngularJs hace un excelente trabajo administrando las dependencias de los objetos, también se encarga de las dependencias de los modulos. Nosotros podemos fácilmente agrupar servicios en un módulo, y por lo tanto crear librerías de servicios (potencialmente reutilizables). 
 
-Como por ejemplo, nosotros podemos mover ambas las notificaciones y los servicios de archivado dentro de sus propios modulos (llamados respectivamente notifications y archive)  de la siguiente forma: 
+Como por ejemplo, nosotros podemos mover ambas las notificaciones y los servicios de archivado dentro de sus propios modulos (llamados respectivamente `notifications` y `archive`)  de la siguiente forma: 
 
+```
 angular.module('application', ['notifications', 'archive'])
+```
 
 De esta forma cada servicio (o grupo de servicios relacionados) se pueden combinar en una entidad reusable (un módulo).  Entonces en el módulo más arriba (nivel de aplicación) puede declarar las dependencias necesarias para todos los modulos, para que la aplicación  funcione apropiadamente. 
 
@@ -751,187 +753,153 @@ La habilidad de depender en otros modulos no esta reservado para los módulos su
 
 Los módulos AngularJS pueden depender entre sí y cada módulo puede contener varios servicios. Pero los servicios individuales también pueden depender de otros servicios. Esto plantea varias preguntas interesantes, que son las siguientes:
 
-¿Puede un servicio definido en un módulo Angular depender de servicios de otro módulo?. 
-¿Pueden los servicios definidos en un modulo hijo depender en servicios de un módulo padre, o solo en servicios definidos en modulos hijos?
-¿Podemos tener modulos privados de servicios visibles solamente en un cierto módulo.?
-¿Podemos tener varios servicios con el mismo nombre definidos en diferentes modulos?
+- ¿Puede un servicio definido en un módulo Angular depender de servicios de otro módulo?. 
+- ¿Pueden los servicios definidos en un modulo hijo depender en servicios de un módulo padre, o solo en servicios definidos en modulos hijos?
+- ¿Podemos tener modulos privados de servicios visibles solamente en un cierto módulo.?
+- ¿Podemos tener varios servicios con el mismo nombre definidos en diferentes modulos?
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Servicios y su visibilidad  a lo largo de los módulos. 
+### Servicios y su visibilidad  a lo largo de los módulos. 
 
 Como era de esperar los servicios definidos en modulos hijos estan disponibles para inyectarlos dentro sevicios en modulos padres, el siguiente código de ejemplo debería hacerlo más claro. 
 
+```
 angular.module('app', ['engines'])
-.factory('car', function ($log, dieselEngine) {
- 		return {
- 			start: function() {
- 				$log.info('Starting ' + dieselEngine.type);
- 			}
-};
- });
+  .factory('car', function ($log, dieselEngine) {
+      return {
+        start: function() {
+          $log.info('Starting ' + dieselEngine.type);
+        }
+      };
+  });
 
 angular.module('engines', [])
  .factory('dieselEngine', function () {
- 		return {
- 			type: 'diesel'
-};
+  return {
+    type: 'diesel'
+  };
 });
+```
 
+Aquí el servicio `car` es definido en el módulo `app`. El módulo app declara una dependencia en el módulo `engines`, donde el servicio `dieselEngine` es definido. No es sorprendente que un servicio `car` pueda ser inyectado con una instancia del módulo `engines`.
 
-Aquí el servicio car es definido en el módulo app. El módulo app declara una dependencia en el módulo engines, donde el servicio dieselEngine es definido. No es sorprendente que un servicio car pueda ser inyectado con una instancia del módulo engines.
+Tal vez lo más sorprendente, sea que los servicios definidos en modulos hermanos sean también visibles el uno al otro. Nosotros podemos mover un servicio `car` dentro de otro módulo, y luego cambiar las dependencias del módulo, entonces tal aplicación dependa de ambos modulos `engines` y `cars`, como sigue a continuación: 
 
-Tal vez lo más sorprendente, sea que los servicios definidos en modulos hermanos sean también visibles el uno al otro. Nosotros podemos mover un servicio car dentro de otro módulo, y luego cambiar las dependencias del módulo, entonces tal aplicación dependa de ambos modulos engines y cars, como sigue a continuación: 
-
-
-
-
-
-
-
-
-
-
+```
 angular.module('app', ['engines', 'cars'])
 
 angular.module('cars', [])
- .factory('car', function ($log, dieselEngine) {
- 		return {
- 			start: function() {
- 				$log.info('Starting ' + dieselEngine.type);
- 			}
- 		};
- });
+  .factory('car', function ($log, dieselEngine) {
+    return {
+      start: function() {
+        $log.info('Starting ' + dieselEngine.type);
+      }
+    };
+  });
 
 angular.module('engines', [])
- 	.factory('dieselEngine', function () {
- 		return {
- 			type: 'diesel'
- 		};
- });
+  .factory('dieselEngine', function () {
+    return {
+      type: 'diesel'
+    };
+  });
+```
 
+En el caso precedente un servicio de `engines` todavía puede ser inyectado en un servicio del modulo `cars` sin ningun problema. 
 
-En el caso precedente un servicio de engines todavía puede ser inyectado en un servicio del modulo cars sin ningun problema. 
+> `NOTA` Un servicio definido en uno de los módulos de las aplicaciones, es visible para todos los otros modulos. En otras palabras, la jerarquía de los módulos no influye en la visibilidad de los servicios de otros modulos. Cuando AngularJs inicializa una aplicación, combina todos los servicios definidos a lo largo de todos los modulos dentro de una aplicacion, eso es, en el espacio de nombre global. 
 
-NOTA: Un servicio definido en uno de los módulos de las aplicaciones, es visible para todos los otros modulos. En otras palabras, la jerarquía de los módulos no influye en la visibilidad de los servicios de otros modulos. Cuando AngularJs inicializa una aplicación, combina todos los servicios definidos a lo largo de todos los modulos dentro de una aplicacion, eso es, en el espacio de nombre global. 
+Desde AngularJS combina todos los servicios de todos los módulos en uno grande, a nivel de la aplicación en el conjunto de servicios solo puede haber uno y solo un servicio con un nombre dado. Podemos usar esto a nuestro favor en los casos en que queremos depender de un módulo, pero al mismo tiempo reescribir algunos servicios de este módulo. Para ilustrar esto, nosotros podemos redefinir el servicio `dieselEngine` directamente en el modulo `cars` de la siguiente manera: 
 
-Desde AngularJS combina todos los servicios de todos los módulos en uno grande, a nivel de la aplicación en el conjunto de servicios solo puede haber uno y solo un servicio con un nombre dado. Podemos usar esto a nuestro favor en los casos en que queremos depender de un módulo, pero al mismo tiempo reescribir algunos servicios de este módulo. Para ilustrar esto, nosotros podemos redefinir el servicio dieselEngine directamente en el modulo cars de la siguiente manera: 
-
-
+```
 angular.module('app', ['engines', 'cars'])
- 	.controller('AppCtrl', function ($scope, car) {
- 	car.start();
- });
-
-
+  .controller('AppCtrl', function ($scope, car) {
+    car.start();
+  });
 
 angular.module('cars', [])
- 	.factory('car', function ($log, dieselEngine) {
- 	return {
- 			start: function() {
- 				$log.info('Starting ' + dieselEngine.type);
- 			};
- 		}
- 	})
+  .factory('car', function ($log, dieselEngine) {
+    return {
+      start: function() {
+        $log.info('Starting ' + dieselEngine.type);
+      };
+    }
+  })
 
+  .factory('dieselEngine', function () {
+    return {
+      type: 'custom diesel'
+    };
+  });
+```
 
-.factory('dieselEngine', function () {
- 	return {
- 		type: 'custom diesel'
- 	};
- });
+En este caso, el servicio `car` será inyectado con el servicio `dieselEngine` definido en el mismo módulo como la del servicio `car`. A nivel de módulo `car`,  `dieselEngine`, puede reescribir (la sombra) el servicio `dieselEngine` definido bajo el módulo `engines`. 
 
-
-En este caso, el servicio car será inyectado con el servicio dieselEngine definido en el mismo módulo como la del servicio car. A nivel de módulo car,  dieselEngine, puede reescribir (la sombra) el servicio dieselEngine definido bajo el módulo engines. 
-
-NOTA: Solo puede haber uno y solo un servicio con un nombre en una aplicación angular. Servicios definidos en modulos cercanos al módulo principal en la jerarquía serán rescribidos por aquellos definidos en modulos hijos. 
+> `NOTA` Solo puede haber uno y solo un servicio con un nombre en una aplicación angular. Servicios definidos en modulos cercanos al módulo principal en la jerarquía serán rescribidos por aquellos definidos en modulos hijos. 
 
 En la actual versión de AngularJs, todos los servicios definidos en un módulo son visibles para todos los otros modulos. No hay forma de restringir la visibilidad de los servicios a un modulos o sub conjunto de modulos. 
 
-NOTA:  Al tiempo de escribir esto, no hay soporte para modulos de servicios privados. 
+> `NOTA`: Al tiempo de escribir esto, no hay soporte para modulos de servicios privados. 
 
-Por que usar modulos AngularJs
+### Por que usar modulos AngularJs
 
 El hecho es que AngularJS combina todos los servicios para todos los modulos en un espacio de nombres a nivel de aplicación podría ser una sorpresa. y puedas que te preguntes por qué usar módulos. Al final de dia, todos los servicios finalizan en una bolsa enorme, entonces ¿cual es el punto del laborioso trabajo de dividir servicios en modulos individuales?
 
-Los modulos AngularJS pueden ayudarnos a organizar múltiples archivos JavaScript en una aplicación. Hay muchas estrategias para dividir una aplicación en modulos, y nosotros vamos a gastar una porción grande del Capítulo 2, Construyendo y Probando discutiendo diferentes enfoques, los pros y los contras. También, una corta y enfocada ayuda para facilitar las pruebas unitarias así como también podremos cargar un conjunto bien identificado de servicios bajo prueba. Una vez de nuevo, en el Capítulo 2  Construyendo y Probando, tiene más detalles.  
+Los modulos AngularJS pueden ayudarnos a organizar múltiples archivos JavaScript en una aplicación. Hay muchas estrategias para dividir una aplicación en modulos, y nosotros vamos a gastar una porción grande del *Capítulo 2, Construyendo y Probando* discutiendo diferentes enfoques, los pros y los contras. También, una corta y enfocada ayuda para facilitar las pruebas unitarias así como también podremos cargar un conjunto bien identificado de servicios bajo prueba. Una vez de nuevo, en el *Capítulo 2 Construyendo y Probando*, tiene más detalles.  
 
-AngularJs y el resto del mundo
+### AngularJs y el resto del mundo
 
 Escoger un perfecto marco para tu próximo proyecto no es facil, Algunos marcos pueden encajar mejor en ciertos tipos de aplicaciones y experiencia de equipo, preferencias personales, así como también muchos otros factores pueden dictar la decisión final. 
 
-AngularJs será inevitablemente comparado con otros marcos populares JavaScript MV* , Diferentes comparaciones más probablemente producirán resultados diferentes, y diferentes puntos de vistas que impulsará muchas discusiones apasionadas. 
+AngularJs será inevitablemente comparado con otros marcos populares JavaScript MV* , Diferentes comparaciones más probablemente producirán resultados diferentes, y diferentes puntos de vistas que impulsará muchas discusiones apasionadas. En lugar de ofrecer reglas estrictas y rápidas o característica para futuras comparaciones, nos gustaría resumir cómo AngularJS es diferente en comparación con otros marcos.
 
-En lugar de ofrecer reglas estrictas y rápidas o característica para futuras comparaciones, nos gustaría resumir cómo AngularJS es diferente en comparación con otros marcos.
-
-NOTA: Si te gustaria ver como el código escrito con AngularJs se compra con el código escrito con otros marcos, vista TodoMVC (http://addyosmani.github.com/todomvc). Este es un proyecto donde puedes ver la misma aplicación (lista de cosas por hacer “TODO List”), implementando diferentes marcos JavaScript MV*. Esta es una oportunidad única para comparar enfoques arquitectónicos y la sintaxis del código, su tamaño y legibilidad.
+> `NOTA` Si te gustaria ver como el código escrito con AngularJs se compra con el código escrito con otros marcos, vista *TodoMVC* (http://addyosmani.github.com/todomvc). Este es un proyecto donde puedes ver la misma aplicación (lista de cosas por hacer “TODO List”), implementando diferentes marcos JavaScript MV*. Esta es una oportunidad única para comparar enfoques arquitectónicos y la sintaxis del código, su tamaño y legibilidad.
 
 Hay muchas cosas acerca AngularJs que hacen que se destaque entre la multitud. Ya vimos que su enfoque para con las plantillas de la interfaz de usuario es bastante novedosa,  como se menciona en las siguientes características: 
 
-Actualizaciones automáticas y el enlace de datos de doble via libera a los desarrolladores del tedioso trabajo de desencadenar explícitamente el repintado de la interfaz de usuario. 
+- Actualizaciones automáticas y el enlace de datos de doble via libera a los desarrolladores del tedioso trabajo de desencadenar explícitamente el repintado de la interfaz de usuario. 
 
-Generando DOM en vivo desde una sintaxis HTML que es usada como lenguaje de plantillas. Más importante, es posible extender el existente vocabulario HTML.  (creado nuevas directivas), y construir interfaces de usuarios usando un nuevo (HTML-based DSL) lenguaje específico de dominio. 
+- Generando DOM en vivo desde una sintaxis HTML que es usada como lenguaje de plantillas. Más importante, es posible extender el existente vocabulario HTML.  (creado nuevas directivas), y construir interfaces de usuarios usando un nuevo (HTML-based DSL) lenguaje específico de dominio. 
 
+- El enfoque declarativo da lugar a una forma expresiva y muy concisa interfaz de usuario. 
 
-
-
-El enfoque declarativo da lugar a una forma expresiva y muy concisa interfaz de usuario. 
-
- 	La excelente maquinaria de plantillas de la interfaz de usuario no coloca ninguna restricción en el código JavaScript (por ejemplo, los modelos y controladores pueden ser creados usando el viejo y simple JavaScript sin llamar las APIs de AngularJS por todas partes) 
+- La excelente maquinaria de plantillas de la interfaz de usuario no coloca ninguna restricción en el código JavaScript (por ejemplo, los modelos y controladores pueden ser creados usando el viejo y simple JavaScript sin llamar las APIs de AngularJS por todas partes) 
 
 AngularJS está abriendo nuevos caminos al traer sólidas prácticas de prueba al mundo JavaScript. El marco en sí está probado a fondo (práctica lo que predica!), pero toda la historia de testabilidad no se detiene aquí, todo el marco y el ecosistema a su alrededor se construyeron con la testabilidad en mente. Que continúa de la siguiente manera:
 
-El motor de inyección de dependencias permite la testabilidad, ya que toda la aplicación puede estar compuesta por servicios pequeños perfectamente probados.  
+- El motor de inyección de dependencias permite la testabilidad, ya que toda la aplicación puede estar compuesta por servicios pequeños perfectamente probados.  
 
-	La mayoría de los códigos de ejemplo en la documentación AngularJs esta acompañado de una prueba, es la mejor prueba de que el código escrito en AngularJS es de hecho comprobable.
+- La mayoría de los códigos de ejemplo en la documentación AngularJs esta acompañado de una prueba, es la mejor prueba de que el código escrito en AngularJS es de hecho comprobable.
 
-El equipo AngularJS creó un excelente ejecutor de pruebas JavaScript llamado Testacular (espectacular ejecutor de pruebas). Testacular da un giro total al flujo de trabajo en las pruebas logrado una experiencia agradable, que es muy útil, rápida, y fiable. Hacer pruebas no siempre es fácil, por lo que es importante contar con herramientas que nos asistan en lugar de resolver en la via.  
+- El equipo AngularJS creó un excelente ejecutor de pruebas JavaScript llamado Testacular (espectacular ejecutor de pruebas). Testacular da un giro total al flujo de trabajo en las pruebas logrado una experiencia agradable, que es muy útil, rápida, y fiable. Hacer pruebas no siempre es fácil, por lo que es importante contar con herramientas que nos asistan en lugar de resolver en la via.  
 
 Sobre todo, AngularJS hace el desarrollo web divertido otra vez!, Se ocupa de muchos detalles de bajo nivel de el código de las aplicaciones, es extremadamente conciso. No es raro escuchar que volver a escribir una aplicación en AngularJS reduce el código base en general en un factor de cinco o incluso más. Por supuesto, todo depende de la aplicación y del equipo,  pero AngularJS nos permite movernos rápidamente y producir resultados en un abrir y cerrar de ojos.
 
-JQuery y AngularJS
+### JQuery y AngularJS
 
-AngularJs y jQuery forma una interesante relación que necesita una mención especial,  Para empezar, AngularJs contiene, como parte de sus fuentes, un simplificada versión de jQuery, es decir, jqLite. Esto es realmente un pequeño subconjunto de la completa  funcionalidad que ofrece Jquery que se centra en las rutinas de manipulación del DOM. 
+AngularJS y jQuery forma una interesante relación que necesita una mención especial,  Para empezar, AngularJs contiene, como parte de sus fuentes, un simplificada versión de jQuery, es decir, jqLite. Esto es realmente un pequeño subconjunto de la completa  funcionalidad que ofrece Jquery que se centra en las rutinas de manipulación del DOM. 
 
-
-NOTA: Al integrar jqLite, AngularJs puede trabajar sin ninguna dependencia o cualquiera librería externa. 
+> `NOTA` Al integrar jqLite, AngularJs puede trabajar sin ninguna dependencia o cualquiera librería externa. 
 
 Pero AngularJs es un buen ciudadano de la comunidad JavaScript y puede trabajar mano a mano con jQuery. Al detectar jQuery, AngularJS utilizará su funcionalidad para manipular el DOM en lugar de depender de jqLite.
 
+> `NOTA`  Si planeas usar jQuery con angular necesitas incluirlo antes del script AngularJS. 
 
-NOTA:  Si planeas usar jQuery con angular necesitas incluirlo antes del script AngularJS. 
+Las cosas se complican más si se trata de volver a utilizar cualquiera de los componentes de interfaz de usuario de la suite de jQuery UI. Algunos de ellos trabajan muy bien, pero la mayoría de las veces habrá alguna fricción. Es sólo que la filosofía subyacente de dos bibliotecas es tan diferente que casi no podemos esperar ningún tipo de integración sin fisuras. `Capítulo 8, Construir sus propias directivas` mira de cerca a la integración y la creación de widgets de interfaz de usuario que pueden funcionar correctamente en aplicaciones AngularJS.
 
-Las cosas se complican más si se trata de volver a utilizar cualquiera de los componentes de interfaz de usuario de la suite de jQuery UI. Algunos de ellos trabajan muy bien, pero la mayoría de las veces habrá alguna fricción. Es sólo que la filosofía subyacente de dos bibliotecas es tan diferente que casi no podemos esperar ningún tipo de integración sin fisuras. Capítulo 8, Construir sus propias directivas mira de cerca a la integración y la creación de widgets de interfaz de usuario que pueden funcionar correctamente en aplicaciones AngularJS.
-Manzanas y naranjas
+### Manzanas y naranjas
 
 jQuery y AngularJS pueden cooperar, pero la comparación de los dos es un negocio difícil. En primer lugar, jQuery nació como una librería que simplifica la manipulación DOM, y como tal se centra en atravesar documentos, manejo de eventos, animación, y las interacciones Ajax.
 
-AngularJs, por otra parte, es un marco completo que trata de abordar todos los aspectos de la moderna web 2.0 en el desarrollo de aplicaciones.
+AngularJS, por otra parte, es un marco completo que trata de abordar todos los aspectos de la moderna web 2.0 en el desarrollo de aplicaciones.
 
 Lo más importante es que AngularJS tiene un enfoque completamente diferente para la construcción de la interfaz de usuario, donde la vista especificada mediante declaración es impulsada por cambios en el modelo. Usando jQuery muy a menudo consiste en escribir código DOM-céntrico que se puede ir de las manos como un proyecto crece (tanto en términos de tamaño y la interactividad).
 
-TIP: AngularJS esta centrado en el modelo y jQuery esta centrado en el DOM, paradigmas radicalmente diferentes. Desarrolladores webs experimentados en jQuery que son nuevos en AngularJs podrían caer dentro de una trampa al usar AngularJs con los paradigmas de jQuery en mente.  Esto resulta en un código que “pelea con AngularJS” en lugar de desatar todo su potencial. Es por esto que nosotros recomendamos que omita la dependencia jQuery, mientras aprende AngularJS (solo para no tener la tentación de caer de nuevo a los viejos hábitos y aprender a resolver problemas en la manera AngularJS).
+> `TIP` AngularJS esta centrado en el modelo y jQuery esta centrado en el DOM, paradigmas radicalmente diferentes. Desarrolladores webs experimentados en jQuery que son nuevos en AngularJs podrían caer dentro de una trampa al usar AngularJs con los paradigmas de jQuery en mente.  Esto resulta en un código que “pelea con AngularJS” en lugar de desatar todo su potencial. Es por esto que nosotros recomendamos que omita la dependencia jQuery, mientras aprende AngularJS (solo para no tener la tentación de caer de nuevo a los viejos hábitos y aprender a resolver problemas en la manera AngularJS).
 
 AngularJS adopta un enfoque holístico para el desarrollo de modernas aplicaciones web, y trata de hacer de el navegador una mejor plataforma de desarrollo.
 
-Un vistazo al futuro
+# Un vistazo al futuro
 
 AngularJS tiene un verdadero enfoque novedoso para muchos aspectos del desarrollo web, y que podría dar forma a la forma de escribir código para los futuros navegadores. En el momento de escribir esto, hay dos especificaciones interesantes en obras que se basan en ideas similares a las aplicadas en AngularJS.
 
@@ -942,13 +910,13 @@ La especificacion de componentes Web (http://dvcs.w3.org/hg/webcomponents/raw-fi
 Ésta no es una meta fácil, pero las directivas AngularJs muestran que es posible definir widgets bien encapsulados y reutilizables.
 
 AngularJS no es sólo un marco innovador para los estándares de hoy en día, sino que también influye en el espacio de desarrollo web de la mañana. El equipo AngularJS trabaja en estrecha colaboración con los autores de las especificaciones mencionadas, por lo que existe la posibilidad de que muchas ideas promovidas por AngularJS hará en partes internas de tu navegador! Podemos esperar que el tiempo dedicado al aprendizaje y jugando con AngularJS dará sus frutos en el futuro.
-resumen
+
+### Resumen
 
 Hemos cubierto mucho en este capítulo. Nuestro viaje comenzó por familiarizarse con el proyecto AngularJS y la gente que está detrás de él. Hemos aprendido dónde encontrar las fuentes y la documentación de la biblioteca, para que podamos escribir nuestra primera aplicación "Hello World". Es una agradable sorpresa que AngularJS sea muy ligero y fácil de empezar con el.
+
 La mayor parte de este capítulo, aunque fue sobre la construcción de bases sólidas para el resto de este libro vimos cómo trabajar con los controladores, ámbitos y vistas AngularJS, y cómo estos elementos juegan juntos. Una gran parte de este capítulo se dedica a la forma en que los servicios AngularJS se pueden crear en módulos AngularJS y cablearlos usando la inyección de dependencia.
 
 Finalmente, vimos cómo AngularJS se compara con otros frameworks de JavaScript y lo hace que tan especial. Con suerte, ahora está convencido de que el tiempo pasado en el aprendizaje de AngularJS es tiempo bien invertido.
 
-Las vistas, controladores y servicios AngularJs son los básicos ingredientes de cualquiera aplicación AngularJS, por lo que era necesario para obtener una comprensión a fondo de estos temas.  Por suerte, ahora sabemos cómo empezar a crear tanto la capa de servicio y la vista, así que estamos listos para hacer frente a proyectos reales. En el próximo capítulo vamos a preparar una estructura de una aplicación que no es trivial, empezando desde la organización del código y que abarca temas tales como la construcción y las pruebas.  
-
-
+Las vistas, controladores y servicios AngularJs son los básicos ingredientes de cualquiera aplicación AngularJS, por lo que era necesario para obtener una comprensión a fondo de estos temas.  Por suerte, ahora sabemos cómo empezar a crear tanto la capa de servicio y la vista, así que estamos listos para hacer frente a proyectos reales. En el próximo capítulo vamos a preparar una estructura de una aplicación que no es trivial, empezando desde la organización del código y que abarca temas tales como la construcción y las pruebas.
