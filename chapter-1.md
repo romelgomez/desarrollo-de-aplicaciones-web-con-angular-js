@@ -725,29 +725,17 @@ Application started at: {{appStarted}}
 
 Vamos a resumir los diferentes métodos para crear objetos y como esos métodos corresponden a las fases del ciclo de vida del módulo:
 
-¿Qué se registró?
-¿Es inyectable durante la fase de configuración? 
- ¿Es inyectable durante la fase de ejecución? 
-Constante (Constant)
-Valores constantes
-si
-si
-Variable
-Valores variables
-no
-si
-Servicio (Service)
-Un nuevo objeto creado por una función creadora
-no
-si
-Fabrica (Factory)
-Un nuevo objeto devuelto por una función fabricante 
-no
-si
-Proveedor (Provider)
-Un nuevo objeto creado por la función fabricante $get
-si
-no
+
+|                       | ¿Qué se registró?                                     | ¿Es inyectable durante la fase de configuración?  | ¿Es inyectable durante la fase de ejecución?  |
+| --------------------- |-------------------------------------------------------| -------------------------------------------------:| ---------------------------------------------:|
+| Constante (Constant)  | Valores constantes                                    |                                                si |                                            si |
+| Variable              | Valores variables                                     |                                                no |                                            si |
+| Servicio (Service)    | Un nuevo objeto creado por una función constructora   |                                                no |                                            si |
+| Fabrica (Factory)     | Un nuevo objeto devuelto por una función fabricante   |                                                no |                                            si |
+| Proveedor (Provider)  | Un nuevo objeto creado por la función fabricante $get |                                                si |                                            no |
+
+
+
 
 ### Modulos que depende de otros modulos
 
