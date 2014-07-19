@@ -25,7 +25,7 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
     - Enlace de datos de doble vía o bidireccional
   - El patrón MVC en AngularJS
     - Vista panorámica
-    - [Ámbito](/chapter-1.md#ambito)
+    - [Ámbito](/chapter-1.md#ámbito)
       - Controlador
       - Modelo
       - Ámbitos en profundidad
