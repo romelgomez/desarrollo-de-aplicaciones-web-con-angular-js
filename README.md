@@ -14,7 +14,7 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
   - [Familiarizarse con el marco de trabajo](/chapter-1.md#familiarizarse-con-el-marco)
   - [Encuentre su camino en el proyecto](/chapter-1.md#encuentre-su-camino-en-el-proyecto)
     - [La comunidad](/chapter-1.md#la-comunidad)
-    - Recursos de aprendizaje en línea
+    - [Recursos de aprendizaje en línea](/chapter-1.md#recursos-de-aprendizaje-en-línea)
   - Bibliotecas y extensiones
   - Herramientas
     - Batarang
@@ -25,7 +25,7 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
     - Enlace de datos de doble vía o bidireccional
   - El patrón MVC en AngularJS
     - Vista panorámica
-    - Ámbito
+    - [Ámbito](/chapter-1.md#ambito)
       - Controlador
       - Modelo
       - Ámbitos en profundidad
