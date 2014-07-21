@@ -61,7 +61,7 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
 - **Resumen**
 
 
-## Capítulo 2.  Construyendo y Probando
+## [Capítulo 2. Construyendo y Probando](/chapter-2.md)
 
 - **Presentamos la aplicación de ejemplo**
   - Familiarizarse con el dominio del problema
