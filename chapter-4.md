@@ -168,7 +168,7 @@ La directiva `ng-include`, mientras no actúe directamente como la declaración 
 
 Adicionalmente `ng-include` es la super herramienta que puede ser usada para componer páginas finales desde pequeños fragmentos de lenguaje de marcado.
 
-> `TIP` La directiva `ng-include acepta una expresión como su argumento, por lo que necesita pasar una cadena entre comillas si piensa utilizar un valor fijo apuntando a un parcial, por ejemplo, `<div ng-include="'header.tpl.html'"></div>`.
+> `TIP` La directiva `ng-include` acepta una expresión como su argumento, por lo que necesita pasar una cadena entre comillas si piensa utilizar un valor fijo apuntando a un parcial, por ejemplo, `<div ng-include="'header.tpl.html'"></div>`.
 
 ### Representando colecciones con la directiva ngRepeat
 
@@ -607,7 +607,7 @@ A menudo, en ocasiones, nos gustaría desplegar un número de artículos en una 
 
 Podemos tratar de crear una fila de resumen como:
 
-``
+```
 Total: {{(backlog | filter:{$: criteria, done: false}).length}}
 ```
 
