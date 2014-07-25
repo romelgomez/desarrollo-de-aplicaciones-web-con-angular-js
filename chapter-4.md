@@ -533,17 +533,17 @@ Los filtros relacionados a los arrays son a menudo usados con la directiva `ng-r
 
 ### Filtrado con el filtro “filter”
 
-Primeramente necesitamos clarificar que AngularJS tiene un filtro llamado filter. El nombre es un poco inoportuno ya que la palabra “filter” puede referirse a cualquier filtro en general (una función transformadora) o este filtro específico llamado “filter”.
+Primeramente necesitamos clarificar que AngularJS tiene un filtro llamado `filter`. El nombre es un poco inoportuno ya que la palabra “filter” puede referirse a cualquier filtro en general (una función transformadora) o este filtro específico llamado “filter”.
 
-El filtro “filter” es una función de filtrado de propósito general que puede ser usada para seleccionar un subconjunto de un array (o dicho de otra manera excluir algunos elementos). Hay una serie de formatos de parámetros que pueden ser suministrado a este filtro con el fin de conducir el proceso de selección de elementos. En la forma más simple podemos ofrecer una cadena en el caso de que todos los campos de todos los elementos en una colección serán comprobados para una tal presencia de una subcadena dada.   
+El *filtro* “*filter*” es una función de filtrado de propósito general que puede ser usada para seleccionar un subconjunto de un array (o dicho de otra manera excluir algunos elementos). Hay una serie de formatos de parámetros que pueden ser suministrado a este filtro con el fin de conducir el proceso de selección de elementos. En la forma más simple podemos ofrecer una cadena en el caso de que todos los campos de todos los elementos en una colección serán comprobados para una tal presencia de una subcadena dada.   
 
+Como un ejemplo vamos a considerar un producto de la lista de atrasos que nos gustaría filtrar en base a criterios de búsqueda. A los usuarios se les presentará un cuadro de entrada donde podrán escribir los criterios de búsqueda. El resultado de la lista debe tener sólo elementos donde cualquier campo para un elemento dado contenga una subcadena proporcionada. La siguiente impresión de pantalla ilustra una Interfaz de usuario terminada.  
 
-Como un ejemplo vamos a considerar un producto de la lista de atrasos que nos gustaría filtrar en base a criterios de búsqueda.
+![chapter-4-3](/img/chapter-4-3.png)
 
-A los usuarios se les presentará un cuadro de entrada donde podrán escribir los criterios de búsqueda. El resultado de la lista debe tener sólo elementos donde cualquier campo para un elemento dado contenga una subcadena proporcionada. La siguiente impresión de pantalla ilustra una Interfaz de usuario terminada.  
+Si asumimos que nuestro modelo de datos tiene las siguientes propiedades: `name`, `desc`, `priority`, `estimation` y `done`, podemos escribir una plantilla para la interfaz de usuario discutida de la siguiente manera:
 
-Si asumimos que nuestro modelo de datos tiene las siguientes propiedades: name, desc, priority, estimation y done, podemos escribir una plantilla para la interfaz de usuario discutida de la siguiente manera:
-
+```
 <div class="well">
    <label>
        Search for:<input type="text" ng-model="criteria">
@@ -563,66 +563,85 @@ Si asumimos que nuestro modelo de datos tiene las siguientes propiedades: name, 
    </tr>
    </tbody>
 </table>
+```
 
 Como puedes ver se ve extremadamente fácil añadir un filtro basado en la entrada del usuario; solo necesitamos escribir un valor de un campo de entrada como un argumento para el filtro. El resto será atendido por AngularJS automáticamente, el entrelazado de datos y el mecanismo de refrescar.
 
-TIP: El criterio coincidente puede ser negado por el operador ! prefijado.
+> `TIP` El criterio coincidente puede ser negado por el operador ! prefijado.
 
 En el ejemplo previo todas las propiedades de los objetos fuentes son buscadas para una coincidencia de subcadena. Si nosotros queremos tener un control más preciso sobre las propiedades que coincidan lo podemos hacer proporcionando un argumento objeto a un filtro. Tal objeto actuará como “consulta de ejemplo”. Aquí queremos limitar las coincidencias a el nombre de la propiedad y y incluir solo los articulos que no se hayan hecho:
 
+```
 ng-repeat="item in backlog | filter:{name: criteria, done: false}"
+```
 
 En este fragmento de código todas las propiedades de un objeto especificado como un argumento deben coincidir. Podemos decir que las condiciones expresadas por las propiedades individuales son combinadas usando el operador lógico AND.
   
-AngularJS adicionalmente provee un nombre de propiedad que encuentra todo: $. El uso de este comodín como un nombre de propiedad podemos combinar los operadores de lógica AND y OR. Digamos que queremos buscar una cadena en todas las propiedades de un objeto fuente, pero teniendo en cuenta que sólo en los artículos no completados. En este caso una expresión de filtrado puede ser reescrita de la siguiente manera:
+AngularJS adicionalmente provee un nombre de propiedad que encuentra todo: `$`. El uso de este comodín como un nombre de propiedad podemos combinar los operadores de lógica AND y OR. Digamos que queremos buscar una cadena en todas las propiedades de un objeto fuente, pero teniendo en cuenta que sólo en los artículos no completados. En este caso una expresión de filtrado puede ser reescrita de la siguiente manera:
 
+```
 ng-repeat="item in backlog | filter:{$: criteria, done: false}"
+```
 
-Puede ocurrir que la combinación del requerido criterio de búsqueda sea tan complejo que no sea posible expresarla usando la sintaxis de objetos. En este caso una función puede ser proporcionada como un argumento a el filtro (llamada función predicate). Tal función será invocada para todos y cada uno de los elementos individuales de una colección fuente. El array resultante contendrá sólo elementos para los cuales las función filtrante retorna true. Como ejemplo un poco artificioso podemos imaginar que queremos ver solo artículos atrasados que ya se han completado y requieren más de 20 unidades de esfuerzo. La función de filtrado para este ejemplo es a la vez fácil de escribir:
+Puede ocurrir que la combinación del requerido criterio de búsqueda sea tan complejo que no sea posible expresarla usando la sintaxis de objetos. En este caso una función puede ser proporcionada como un argumento a el filtro (llamada función `predicate`). Tal función será invocada para todos y cada uno de los elementos individuales de una colección fuente. El array resultante contendrá sólo elementos para los cuales las función filtrante retorna `true`. Como ejemplo un poco artificioso podemos imaginar que queremos ver solo artículos atrasados que ya se han completado y requieren más de 20 unidades de esfuerzo. La función de filtrado para este ejemplo es a la vez fácil de escribir:
 
+```
 $scope.doneAndBigEffort = function (backlogItem) {
    return backlogItem.done && backlogItem.estimation > 20;
 };
+```
+
 Y usa:
 
+```
 ng-repeat="item in backlog | filter:doneAndBigEffort"
+```
 
-Contando resultados filtrados
+### Contando resultados filtrados
 
-A menudo, en ocasiones, nos gustaría desplegar un número de artículos en una colección. Normalmente es tan simple como usar la expresión: {{myArray.length}}. Las cosas se ponen un poco más complicadas durante el uso de filtros, como nos gustaría mostrar el tamaño de una matriz filtrada. Un enfoque ingenuo podría consistir en duplicar filtros en ambos en un repetidor y en una expresión contadora. Tomando el último ejemplo de filtración en un repetidor:
+A menudo, en ocasiones, nos gustaría desplegar un número de artículos en una colección. Normalmente es tan simple como usar la expresión: ```{{myArray.length}}```. Las cosas se ponen un poco más complicadas durante el uso de filtros, como nos gustaría mostrar el tamaño de una matriz filtrada. Un enfoque ingenuo podría consistir en duplicar filtros en ambos en un repetidor y en una expresión contadora. Tomando el último ejemplo de filtración en un repetidor:
 
+```
 <tr ng-repeat="item in backlog | filter:{$: criteria, done: false}">
+```
 
 Podemos tratar de crear una fila de resumen como:
 
+``
 Total: {{(backlog | filter:{$: criteria, done: false}).length}}
-	
+```
+
 Esto tiene obviamente varios inconvenientes, no sólo se duplica el código, sino también los mismos filtros necesitan ser ejecutados varias veces en dos lugares diferentes, no es ideal desde el punto de vista del rendimiento.
 
-Para remediar esta situación podemos crear una variable intermediaria (filteredBacklog) que mantendrá una matriz filtrada:
+Para remediar esta situación podemos crear una variable intermediaria (`filteredBacklog`) que mantendrá una matriz filtrada:
   
+```
 ng-repeat="item in filteredBacklog = (backlog | filter:{$: criteria, done: false})"
+```
 
 Entonces, contar los resultados de búsqueda se reduce a la visualización de la longitud de una matriz guardada.
 
+```
 Total: {{filteredBacklog.length}}
+```
 
 El precedente patrón para contar objetos filtrados, aunque no es muy intuitivo, nos permite disponer de una lógica de filtrado en un solo lugar.  
 
 La otra posibilidad es mover toda la lógica de filtrado a el controlador y sólo exponer los resultados filtrados en el ámbito. Este método tiene tiene una ventaja más: mueve el código de filtrado a un controlador donde es muy fácil hacer pruebas unitarias. Para usar esta solución tu necesitaras aprender como acceder a los filtros desde JavaScript; algo que se cubre más adelante en este capítulo.
 
-Ordenando con el filtro orderBy
+### Ordenando con el filtro orderBy
 
-Muy a menudo unos datos tabulados pueden ser organizados libremente por los usuarios. Por lo general, al hacer clic en un encabezado de una columna individual, se selecciona un campo determinado como criterio de clasificación, mientras hace clic de nuevo invierte el orden de clasificación. En esta sección, vamos a implementar este patrón común
-con AngularJS.
+Muy a menudo unos datos tabulados pueden ser organizados libremente por los usuarios. Por lo general, al hacer clic en un encabezado de una columna individual, se selecciona un campo determinado como criterio de clasificación, mientras hace clic de nuevo invierte el orden de clasificación. En esta sección, vamos a implementar este patrón común con AngularJS.
 
-El filtro orderBy será nuestra principal herramienta para este trabajo, Cuando haya terminado, nuestra tabla de ejemplo tendrá una lista de artículos atrasados que obtendrá iconos de organización totalmente funcionales, como se muestra a continuación:   
-
+El filtro `orderBy` será nuestra principal herramienta para este trabajo, Cuando haya terminado, nuestra tabla de ejemplo tendrá una lista de artículos atrasados que obtendrá iconos de organización totalmente funcionales, como se muestra a continuación:   
 
 
+![chapter-4-4](/img/chapter-4-4.png)
 
-El filtro orderBy es sencillo e intuitivo de usar por lo que podemos sumergirnos inmediatamente en el ejemplo de código, sin tener que gastar demasiado tiempo en introducciones teóricas. En primer lugar vamos a hacer el trabajo de clasificación y luego agregar los indicadores de clasificación.
 
+El filtro `orderBy` es sencillo e intuitivo de usar por lo que podemos sumergirnos inmediatamente en el ejemplo de código, sin tener que gastar demasiado tiempo en introducciones teóricas. En primer lugar vamos a hacer el trabajo de clasificación y luego agregar los indicadores de clasificación.
+
+```
 <thead>
 <th ng-click="sort('name')">Name</th>
 <th ng-click="sort('desc')">Description</th>
@@ -636,133 +655,146 @@ filter:criteria | orderBy:sortField:reverse)">
    ...
 </tr>
 </tbody>
+```
 
-La actual clasificación es atendida por el filtro orderBy. Que en nuestro ejemplo toma dos argumentos:
+La actual clasificación es atendida por el filtro `orderBy`. Que en nuestro ejemplo toma dos argumentos:
 
-sortField: una propiedad llamada para ser usada como un predicado de clasificación.
-sort orden de clasificación (reversa): este argumento indica si una matriz debería invertirse.
+- `sortField`: una propiedad llamada para ser usada como un predicado de clasificación.
+- `sort` orden de clasificación (reversa): este argumento indica si una matriz debería invertirse.
 
-La función desencadenada por un evento click en la celda de cabecera, es responsable por seleccionar el campo de clasificación como también alternar la dirección de clasificación.  He aquí los relevante bits de código del controlador:   
+La función sort, desencadenada por un evento click en la celda de cabecera, es responsable por seleccionar el campo de clasificación como también alternar la dirección de clasificación.  He aquí los relevante bits de código del controlador:   
+
+```
 $scope.sortField = undefined;
 $scope.reverse = false;
 
 $scope.sort = function (fieldName) {
- if ($scope.sortField === fieldName) {
-   $scope.reverse = !$scope.reverse;
- } else {
-   $scope.sortField = fieldName;
-   $scope.reverse = false;
- }
+  if ($scope.sortField === fieldName) {
+    $scope.reverse = !$scope.reverse;
+  } else {
+    $scope.sortField = fieldName;
+    $scope.reverse = false;
+  }
 };
+```
 
+Nuestro ejemplo de clasificación construye sobre la implementación previa, la filtrada, por lo que ahora nuestra lista de atrasos puede ser ambas, filtrada y clasificada. Con AngularJS es sorprendentemente fácil combinar ambos filtros para crear tablas interactivas.  
 
+> `TIP` El filtro `orderBy` fue deliberadamente colocado luego del filtro `filter`. La razón para esto es rendimiento: la clasificación es más consistente en comparación a el filtrado, por lo que es mejor ejecutar el algoritmo de clasificación en un conjunto de datos mínimos.      
 
+Ahora que la clasificación funciona solo necesitamos añadir iconos indicando cual campo estamos clasificando y si se trata de ascendente o descendente. Una vez más la directiva `ng-class` probara ser muy útil. He aquí un ejemplo de indicadores visuales para la columna “`name`”:
 
-Nuestro ejemplo de clasificación construye sobre la implementación previa, la filtrada,  
-por lo que ahora nuestra lista de atrasos puede ser ambas, filtrada y clasificada. Con AngularJS es sorprendentemente fácil combinar ambos filtros para crear tablas interactivas.  
-
-TIP: El filtro orderBy fue deliberadamente colocado luego del filtro filter. La razón para esto es rendimiento: la clasificación es más consistente en comparación a el filtrado, por lo que es mejor ejecutar el algoritmo de clasificación en un conjunto de datos mínimos.      
-
-Ahora que la clasificación funciona solo necesitamos añadir iconos indicando cual campo estamos clasificando y si se trata de ascendente o descendente. Una vez más la directiva ng-class probara ser muy útil. He aquí un ejemplo de indicadores visuales para la columna “name”:
-
-
-
-
+```
 <th ng-click="sort('name')">Name
    <i ng-class="{'icon-chevron-up': isSortUp('name'), 'icon-chevron-down': isSortDown('name')}"></i>
 </th>
+```
 
+Las funciones `isSortUp` y `isSortDown` son muy simples y luce de la siguiente forma:
 
-Las funciones isSortUp y isSortDown son muy simples y luce de la siguiente forma:
-
-
+```
 $scope.isSortUp = function (fieldName) {
- return $scope.sortField === fieldName && !$scope.reverse;
+  return $scope.sortField === fieldName && !$scope.reverse;
 };
 $scope.isSortDown = function (fieldName) {
- return $scope.sortField === fieldName && $scope.reverse;
+  return $scope.sortField === fieldName && $scope.reverse;
 };
+```
 
 Por supuesto que hay muchas maneras de mostrar indicadores de clasificación, y la que acabamos de presentar se esfuerza por mantener clases CSS fuera del código JavaScript. Esta forma de presentación puede ser fácilmente cambiada sólo tienes que cambiar o retocar la plantilla.
 
-Escribiendo filtros personalizado - un ejemplo de paginación
+### Escribiendo filtros personalizado - un ejemplo de paginación
 
 Hasta ahora nos las hemos arreglado para mostrar los elementos de trabajo pendiente en una tabla dinámica que soporta calcificado y ordenado. La paginación es otro patrón de interfaz de usuario que es usado con un largo conjunto de datos.
 
 AngularJS no provee ningún filtro que nos ayude a elegir precisamente un subconjunto de una matriz sobre la base de los índices de inicio y fin. Para soportar paginación necesitamos crear un nuevo filtro, y esta es una buena ocasión para familiarizarse con el proceso de escribir filtros personalizado.
 
-Para conseguir la idea de una interfaz para un nuevo filtro, llamémosle pagination escribiremos un esbozo del lenguaje de marcado primeramente.
+Para conseguir la idea de una interfaz para un nuevo filtro, llamémosle `pagination` escribiremos un esbozo del lenguaje de marcado primeramente.
+
+```
 <tr ng-repeat="item in filteredBacklog = (backlog |
 pagination:pageNo:pageSize">
    <td>{{item.name}}</td>
    . . .
 </tr>
+```
 
-El nuevo filtro de pagination necesita tomar dos parámetros: pagina a ser desplegada (su indice) y su tamaño (número de elementos o artículos por página).
+El nuevo filtro de `pagination` necesita tomar dos parámetros: pagina a ser desplegada (su indice) y su tamaño (número de elementos o artículos por página).
 
 Lo que sigue es la primera, nativa implementación del filtro (el manejo de errores fue deliberadamente omitido para enfocarnos en la mecánica de la escritura del filtro):
 
+```
 angular.module('arrayFilters', [])
- .filter('pagination', function(){
-   return function(inputArray, selectedPage, pageSize) {
-     var start = selectedPage*pageSize;
-     return inputArray.slice(start, start + pageSize);
-   };
- });
+  .filter('pagination', function(){
+    return function(inputArray, selectedPage, pageSize) {
+      var start = selectedPage*pageSize;
+      return inputArray.slice(start, start + pageSize);
+    };
+  });
+```
 
-Un filtro, como cualquier otro proveedor, necesita ser registrado en una instancia de un módulo. El método filter debe ser llamado con un nombre de filtro y una función de  fábrica que va a crear una instancia de un nuevo filtro. La función fábrica registrada debe retornar la actual función filtro.  
+Un filtro, como cualquier otro proveedor, necesita ser registrado en una instancia de un módulo. El método `filter` debe ser llamado con un nombre de filtro y una función de  fábrica que va a crear una instancia de un nuevo filtro. La función fábrica registrada debe retornar la actual función filtro.  
 
-El primer argumento de la función de filtración pagination representa un campo de entrada a ser filtrado mientras que los parámetros subsiguientes pueden ser declarado para soportar opciones del filtro.
+El primer argumento de la función de filtración `pagination` representa un campo de entrada a ser filtrado mientras que los parámetros subsiguientes pueden ser declarado para soportar opciones del filtro.
 
-Los filtros son fáciles de probar con pruebas unitarias;  ellas trabajan en un campo de entrada suministrado, y cuando termina correctamente no deberían tener ningún efecto secundario. Aqui un ejemplo para probar nuestro filtro personalizado:
+Los filtros son fáciles de probar con pruebas unitarias;  ellas trabajan en un campo de entrada suministrado, y cuando termina correctamente no deberían tener ningún efecto secundario. Aqui un ejemplo para probar nuestro filtro de paginación personalizado:
 
+```
 describe('pagination filter', function () {
- var paginationFilter;
- beforeEach(module('arrayFilters'));
- beforeEach(inject(function (_paginationFilter_) {
-   paginationFilter = _paginationFilter_;
- }));
- it('should return a slice of the input array', function () {
-   var input = [1, 2, 3, 4, 5, 6];
-   expect(paginationFilter(input, 0, 2)).toEqual([1, 2]);
-   expect(paginationFilter(input, 2, 2)).toEqual([5, 6]);
- });
- it('should return empty array for out-of bounds', function () {
-   var input = [1, 2];
-   expect(paginationFilter(input, 2, 2)).toEqual([]);
- });
+
+  var paginationFilter;
+
+  beforeEach(module('arrayFilters'));
+
+  beforeEach(inject(function (_paginationFilter_) {
+    paginationFilter = _paginationFilter_;
+  }));
+
+  it('should return a slice of the input array', function () {
+    var input = [1, 2, 3, 4, 5, 6];
+    expect(paginationFilter(input, 0, 2)).toEqual([1, 2]);
+    expect(paginationFilter(input, 2, 2)).toEqual([5, 6]);
+  });
+
+  it('should return empty array for out-of bounds', function () {
+    var input = [1, 2];
+    expect(paginationFilter(input, 2, 2)).toEqual([]);
+  });
+
 });
-
+```
  
-
 Probar filtros es simple como probar una sola función, y la mayoría del tiempo es realmente sencillo. La estructura de la prueba de ejemplo justamente presentada debería ser fácil de seguir como casi no hay nuevas construcciones aquí, la única cosa que requiere explicación es la forma de acceder a instancias de un filtro desde el código JavaScript.
-Acceso a filtros desde código JavaScript
+
+### Acceso a filtros desde código JavaScript
 
 Los filtros son usualmente invocados desde el lenguaje de marcado (utilizando el símbolo de canalización “|” en las expresiones), pero es también posible obtener acceso a las instancias de los filtros desde el código JavaScript (controladores, servicios, otros filtros, etc). Des esta forma podemos combinar los existentes filtros para proveer una nueva funcionalidad.
 
-Los filtros pueden ser inyectados a los objetos administrados por el sistema de inyección de dependencia AngularJS. Podemos expresar dependencia en un filtro usando dos distintos métodos, que requiera ya sea:
+Los filtros pueden ser inyectados a los objetos administrados por el **sistema de inyección de dependencia AngularJS**. Podemos expresar dependencia en un filtro usando dos distintos métodos, que requiera ya sea:
 
-El servicio $filter.
-Un nombre de filtro con el sufijo Filter.
+- El servicio `$filter`.
+- Un nombre de filtro con el sufijo `Filter`.
 
-El servicio $filter es una función de búsqueda que nos permite recuperar una instancia de un filtro basado en su nombre. Para verlo en acción, podemos escribir un filtro que se comporte de manera similar al filtro limitTo y pueda cortar el largo de las cadenas. Adicionalmente nuestra versión personalizada añadirá el sufijo “...” si una cadena es recortada. He aquí el código relevante:
+El servicio `$filter` es una función de búsqueda que nos permite recuperar una instancia de un filtro basado en su nombre. Para verlo en acción, podemos escribir un filtro que se comporte de manera similar al filtro `limitTo` y pueda cortar el largo de las cadenas. Adicionalmente nuestra versión personalizada añadirá el sufijo “...” si una cadena es recortada. He aquí el código relevante:
 
+```
 angular.module('trimFilter', [])
- .filter('trim', function($filter){
-   var limitToFilter = $filter('limitTo');
-   return function(input, limit) {
-     if (input.length > limit) {
-       return limitToFilter(input, limit-3) + '...';
-     }
-     return input;
-   };
- });
+  .filter('trim', function($filter){
+    var limitToFilter = $filter('limitTo');
+    return function(input, limit) {
+      if (input.length > limit) {
+        return limitToFilter(input, limit-3) + '...';
+      }
+      return input;
+    };
+  });
+```
 
-
-La llamada a la función $filter(‘limitTo’) nos permite tener a la mano una instancia de filtro basada en el nombre del filtro.
+La llamada a la función `$filter(‘limitTo’)` nos permite tener a la mano una instancia de filtro basada en el nombre del filtro.
 
 Mientras el método previo ciertamente funciona hay una alternativa que es a menudo más rápida de escribir y fácil de leer:
 
+```
 .filter('trim', function(limitToFilter){
  return function(input, limit) {
    if (input.length > limit) {
@@ -771,53 +803,53 @@ Mientras el método previo ciertamente funciona hay una alternativa que es a men
    return input;
  };
 });
+```
 
+En el segundo ejemplo, presentado aquí, es suficiente para declarar una dependencia llamada como `[filter name]Filter` donde el `[filter name]` es un nombre del filtro que queremos  recuperar.
 
-En el segundo ejemplo, presentado aquí, es suficiente para declarar una dependencia llamada como [filter name]Filter donde el [filter name] es un nombre del filtro que queremos  recuperar.
+> `TIP` Acceder a instancias de filtros usando el servicio $filter resulta en una vieja sintaxis, y es por eso que la encontramos la forma usando el sufijo Filter fácil de trabajar. Las únicas ocasiones en que el servicio $filter podria ser mas conveniente es cuando necesitamos obtener varias instancias en un lugar o obtener una instancia de filtro basado en una variable, por ejemplo, $filter(filterName).
 
-TIP: Acceder a instancias de filtros usando el servicio $filter resulta en una vieja sintaxis, y es por eso que la encontramos la forma usando el sufijo Filter fácil de trabajar. Las únicas ocasiones en que el servicio $filter podria ser mas conveniente es cuando necesitamos obtener varias instancias en un lugar o obtener una instancia de filtro basado en una variable, por ejemplo, $filter(filterName).
-
-Filtros, Hacer y qué evitar.
+### Filtros, Hacer y qué evitar.
 
 Los filtros hacen un maravilloso trabajo cuando son usados para formatear y transformar datos, invocados desde una plantilla ofreciendo una sintaxis agradable y concisa.  Pero los filtros son justamente herramientas para un específico trabajo y como cualquier otra herramienta puede causar daño si es usada incorrectamente. Esta sección describe situaciones donde los filtros deberían ser evitados y una solución alternativa debería ser una mejor solución.
-Filtros y manipulación DOM.  
 
-A veces puede ser tentador retornar lenguaje de marcado HTML como resultado de la ejecución de filtros. En efecto AngularJS contiene un filtro que hace exactamente eso: linky (en el módulo separado ngSanitize).
+### Filtros y manipulación DOM.  
 
+A veces puede ser tentador retornar lenguaje de marcado HTML como resultado de la ejecución de filtros. En efecto AngularJS contiene un filtro que hace exactamente eso: linky (en el módulo separado `ngSanitize`).
 
-Resulta que, en la práctica, los filtros retornado HTML no son la mejor idea. El problema principal es que para representar una salida de tal filtro necesitamos usar una de las directivas de entrelazado de datos descrita anteriormente en ngBindUnsafeHtml o ngBindHtml.  No solo esto hace que la sintaxis de entrelazado de datos sea más verbosa (comparado con la simple implementación {{expression}} ) y potencialmente hace una web vulnerable a un ataque de injection HTML.
+Resulta que, en la práctica, los filtros retornado HTML no son la mejor idea. El problema principal es que para representar una salida de tal filtro necesitamos usar una de las directivas de entrelazado de datos descrita anteriormente en `ngBindUnsafeHtml` o `ngBindHtml`.  No solo esto hace que la sintaxis de entrelazado de datos sea más verbosa (comparado con la simple implementación `{{expression}}` ) y potencialmente hace una web vulnerable a un ataque de injection HTML.
 
-Para ver algunos problemas relacionados con que los filtros emitan HTML, podemos examinar un simple filtro para destacar (highlight):    
+Para ver algunos problemas relacionados con que los filtros emitan HTML, podemos examinar un simple filtro para destacar (`highlight`):    
 
+```
 angular.module('highlight', [])
- .filter('highlight', function(){
-   return function(input, search) {
-     if (search) {
-       return input.replace(new RegExp(search, 'gi'),'<strong>$&</strong>');
-     } else {
-       return input;
-     }
-   };
- });
-
+  .filter('highlight', function(){
+    return function(input, search) {
+      if (search) {
+        return input.replace(new RegExp(search, 'gi'),'<strong>$&</strong>');
+      } else {
+        return input;
+      }
+    };
+  });
+```
 
 Puedes inmediatamente ver que este filtro contiene lenguaje de marcado HTML no modificable o hardcoded (es más difícil de cambiar si más adelante se hace necesario). Como resultado no podemos usarla con la directiva de interpolación, pero es necesaria para escribir una plantilla como:
 
+```
 <input ng-model="search">
 <span ng-bind-html="phrase | highlight:search"></span>
+```
 
 Además de esto el lenguaje de marcado HTML emitido por el filtro no puede contener  directivas AngularJS ya que no serán evaluadas.
 
-Una directiva personalizada, la mayoría del tiempo, resolverá el mismo problema en una forma más elegante, sin introducir potenciale riesgos de seguridad. La directivas son cubiertas en el Capítulo 9, Construyendo Directivas Avanzadas y Capítulo 10, Construyendo Aplicaciones Web AngularJS para una Audiencia Internacional.
+Una directiva personalizada, la mayoría del tiempo, resolverá el mismo problema en una forma más elegante, sin introducir potenciale riesgos de seguridad. La directivas son cubiertas en el **Capítulo 9, Construyendo Directivas Avanzadas y Capítulo 10, Construyendo Aplicaciones Web AngularJS para una Audiencia Internacional**.
 
-
-
-
-
-Costosa transformación de datos en filtros
+### Costosa transformación de datos en filtros
 
 Los Filtros, cuando son usados en una plantilla, se convierten en una parte integral de la expresión AngularJS, y como tal son frecuentemente evaluados. De hecho, tales funciones de filtrado son llamadas múltiples veces en cada ciclo de asimilación (digest). Podemos ver fácilmente esto en la práctica creando un envoltorio de registro alrededor del filtro mayúsculas (uppercase):
 
+```
 angular.module('filtersPerf', [])
  .filter('logUppercase', function(uppercaseFilter){
    return function(input) {
@@ -825,22 +857,25 @@ angular.module('filtersPerf', [])
      return uppercaseFilter(input);
    };
  });
+```
 
 Al usar este filtro recién definido en un lenguaje de mercado tal como:
 
+```
 <input ng-model="name"> {{name | logUppercase}}
+```
 
 Veremos que la declaración de registro se escribe al menos una vez (usualmente dos veces) por cada golpe de teclado! Este experimento solamente debería convencerte que los filtros son ejecutados a menudo por lo que es altamente preferible que se ejecuten rápido.
 
-TIP: No se sorprenda de ver que los filtros son llamados varias veces en un fila. Esta es la comprobación sucia de AngularJS en funcionamiento. Esfuércese por escribir sus filtros simples, para que ejecuten un procesamiento rápido y ligero.  
-Filtros inestables
+`TIP`: No se sorprenda de ver que los filtros son llamados varias veces en un fila. Esta es la comprobación sucia de AngularJS en funcionamiento. Esfuércese por escribir sus filtros simples, para que ejecuten un procesamiento rápido y ligero.  
+
+### Filtros inestables
 
 Ya que los filtros son llamados múltiples veces es razonable esperar que un filtro responda con el mismo valor retornado si el campo de entrada no ha cambiado. Tales funciones son llamadas estables con respecto a sus parámetros.
 
-Las cosas se pueden fácilmente salirse de las manos si un filtro no tiene esta propiedad.  Para ver el efecto desastroso de los filtros inestables vamos a  escribir un malicioso filtro random que selecciona un elemento aleatorio de una matriz de entrada (es inestable):      
+Las cosas se pueden fácilmente salirse de las manos si un filtro no tiene esta propiedad.  Para ver el efecto desastroso de los filtros inestables vamos a  escribir un malicioso filtro `random` que selecciona un elemento aleatorio de una matriz de entrada (es inestable):      
 
-
-
+```
 angular.module('filtersStability', [])
  .filter('random', function () {
    return function (inputArray) {
@@ -848,53 +883,46 @@ angular.module('filtersStability', [])
      return inputArray[idx];
    };
  })
+```
 
+Dado una matriz de diferentes elementos almacenados en la variable `items` en un ámbito, el filtro `random` puede ser usado en una plantilla tal como:
 
-Dado una matriz de diferentes elementos almacenados en la variable items en un ámbito, el filtro random puede ser usado en una plantilla tal como:
-
+```
 {{items | random}}
+```
 
 El código precedente, después de la ejecución, imprimirá un valor aleatorio por lo que puede parecer que se comporta correctamente. Es sólo al inspeccionar la consola del navegador, nos damos cuenta que en efecto, un error es registrado:
 
+```
 Uncaught Error: 10 $digest() iterations reached. Aborting!
+```
 
-Este error significa que una expresión está dando diferentes resultados cada vez que sea siendo evaluada. AngularJS ve un constante cambio del modelo y reevalúa la expresión, con la esperanza de que se estabilizara. Luego repetir este proceso diez veces la digestión (digest) es abortada, el último resultado es impreso y el error archivado en la consola. Capítulo 11, Escribiendo Robustas Aplicaciones Web se entra en una discusión más profunda de estos temas, y explica el funcionamiento interno de AngularJS que debería hacer razones para que este error sea fácil de entender.  
+Este error significa que una expresión está dando diferentes resultados cada vez que sea siendo evaluada. AngularJS ve un constante cambio del modelo y reevalúa la expresión, con la esperanza de que se estabilizara. Luego repetir este proceso diez veces la digestión (digest) es abortada, el último resultado es impreso y el error archivado en la consola. **Capítulo 11, Escribiendo Robustas Aplicaciones Web** se entra en una discusión más profunda de estos temas, y explica el funcionamiento interno de AngularJS que debería hacer razones para que este error sea fácil de entender.  
 
 En situaciones como esta la solución es calcular un valor aleatorio en un controlador, antes de que la plantilla sea representada.  
 
-
+```
 .controller('RandomCtrl', function ($scope) {
- $scope.items = new Array(1000);
- for (var i=0; i<$scope.items.length; i++) {
-   $scope.items[i] = i;
- }
- $scope.randomValue = Math.floor(Math.random() * $scope.items.length);
+  $scope.items = new Array(1000);
+  for (var i=0; i<$scope.items.length; i++) {
+    $scope.items[i] = i;
+  }
+  $scope.randomValue = Math.floor(Math.random() * $scope.items.length);
 });
+```
 
-
-
-
-Como esta, un valor aleatorio será calculado antes que se procese la plantilla y podamos usar de forma segura la expresión {{randomValue}} para emitir el valor preparado.
+Como esta, un valor aleatorio será calculado antes que se procese la plantilla y podamos usar de forma segura la expresión `{{randomValue}}` para emitir el valor preparado.
 
 Si su función puede generar diferentes resultados para el mismo campo de entrada no es un buen candidato para un filtro. En su lugar invoque esta función desde un controlador y deje a AngularJS que reprecente el valor pre-calculado.
 
-
-Resumen
+### Resumen
 
 En este capítulo se nos llevó a través de un conjunto de patrones utilizados para mostrar los datos que están contenidos en el modelo.
 
-Empezamos rápidamente cubriendo las convenciones de nombre de las directivas y luego nos trasladamos a la visión general de las directivas AngularJS incorporadas. La directiva ng-repeat tiene especial atención, ya que es muy poderosa y es una de las directivas de uso más frecuente.
+Empezamos rápidamente cubriendo las convenciones de nombre de las directivas y luego nos trasladamos a la visión general de las directivas AngularJS incorporadas. La directiva `ng-repeat` tiene especial atención, ya que es muy poderosa y es una de las directivas de uso más frecuente.
 
 Mientras que las plantillas declarativas, basadas en DOM, en la que AngularJS se  basa, trabaja perfectamente la mayoría del tiempo, hay algunos casos puntuales donde nosotros tocamos los límites de este enfoque. Es importante reconocer estas situaciones y prepararse para cambiar ligeramente objetivo del lenguaje de marcado cuando sea necesario.  
 
 Los filtros ofrecen una sintaxis muy conveniente para formatear el modelo de específicas interfaces de usuario. Nosotros vimos que AngularJS provee muchos filtros útiles por defecto, pero cuando uno específico es necesitado surge que es muy fácil de crear un filtro personalizado. Que de las funciones de filtrado no se debe abusar y tuvimos una mirada cuidadosa a los escenarios donde un constructor alternativo debería ser considerado.
 
 Las directivas, filtros y patrones de representación cubiertos en este capítulo están enfocados en la representación de datos. Pero antes que los datos puedan ser representados por los usuarios necesitamos ser capaces de ingresarlos usando una variedad de elementos de entrada. En el capítulo siguiente se sumerge en la forma en que AngularJS trata con elementos de formularios y campos de entrada problemáticos.
-
-
-
-
-
-
-
-
