@@ -1,64 +1,63 @@
-Capítulo 5. Creando formularios avanzados
+## Capítulo 5. Creando formularios avanzados
 
 AngularJS construye sobre los formularios HTML estándar y elementos de entrada de datos (imput). Esto significa que puede continuar creando su interfaz de usuario con los mismos elementos HTML que ya entiende usando las herramientas de diseño HTML estándar.  
+
 Hasta ahora, en nuestra aplicación SCRUM, hemos creado algunos formularios básicos con elementos de entrada de datos unidos a modelo de datos y botones para guardar y borrar, etc. AngularJS se encarga de efectuar la conexión, tanto la unión elemento-modelo y la unión evento-controlador.
 
 En este capítulo, veremos como los formularios AngularJS trabaja en detalle y luego como añadir validación y interacción de usuario dinámica a nuestros formularios de aplicaciones.
 
 En este capítulo vamos a cubrir:       
 
-Unión de datos del modelo y directivas de campos de entrada.
-Validación de formularios.
-Formularios anidados y repetidos.
-Envío de formularios.
-Restablecer de un formulario.
+- Unión de datos del modelo y directivas de campos de entrada.
+- Validación de formularios.
+- Formularios anidados y repetidos.
+- Envío de formularios.
+- Restablecer de un formulario.
 
-Comparando formularios tradicionales con formularios AngularJS
+### Comparando formularios tradicionales con formularios AngularJS
 
 Antes de comenzar a mejorar nuestros formularios de aplicaciones debemos entender como trabaja los formularios AngularJS. En esta sección, explicamos las diferencias entre los elementos estándares de entrada de datos HTML y las directivas de entrada de datos AngularJS. Nosotros mostraremos como AngularJS modifica y expande el comportamiento de los elementos de entrada de datos HTML y la forma en que administra las actualizaciones desde y hacia el modelo para usted.
 
 En un formulario HTML, el valor de un elemento input es el valor que se enviará al servidor al enviar el formulario.
  
-
-
-
-
+![chapter-5-1](/img/chapter-5-1.png)
 
 El problema con los elementos de entrada de datos (input) que contiene el valor de su envío es que usted está atascado en tener que trabajar con los valores de los elementos de entrada de datos a medida que se muestran al usuario. A menudo, esto no es lo que quieres. Por ejemplo, un campo de entrada del tipo fecha (date) puede permitir que el usuario introduzca un cadena en algún formato predefinido, por ejemplo "12 March 2013". Pero en su código puede que quiera trabajar con el valor como un objeto JavaScript Date. La constante codificación de estas transformaciones es tediosa y propensa a errores.
 
 AngularJS desacopla el modelo de la vista. Dejas que las directivas de elementos de entrada de datos se preocupen por desplegar los valores y AngularJS se preocupe por actualizar su modelo cuando el valor cambie. Esto lo deja libre para trabajar con el modelo, via controlador por ejemplo, sin preocuparse sobre cómo los datos son desplegados o ingresados.
 
-
+![chapter-5-2](/img/chapter-5-2.png)
 
 Para lograr esta separación, AngularJS mejora los formularios HTML con las directivas form y input, directivas de validación, y controladores, Estas directivas y controladores reescriben el comportamiento integrado de los formularios HTML pero, para el observador casual, los formularios en AngularJS lucen muy similares a los formularios HTML estándar.
 
-En primer lugar, la directiva ngModel permite definir cómo los elementos de entrada de datos deben unirse al modelo.
+En primer lugar, la directiva `ngModel` permite definir cómo los elementos de entrada de datos deben unirse al modelo.
       
-Presentado la directiva ngModel
+### Presentado la directiva ngModel
 
-Ya hemos visto como AngularJS crea el enlace de datos entre el objeto ámbito y los elementos HTML en la página. Se puede configurar el enlace de datos usando llaves, {{}}, o directivas tal como ngBind. Pero el uso de tales enlaces es solo en una via. Al enlazar el valor de una directiva input, usamos ngModel:
+Ya hemos visto como AngularJS crea el enlace de datos entre el objeto ámbito y los elementos HTML en la página. Se puede configurar el enlace de datos usando llaves, `{{}}`, o directivas tal como `ngBind`. Pero el uso de tales enlaces es solo en una via. Al enlazar el valor de una directiva input, usamos `ngModel`:
 
+```
 <div>Hello <span ng-bind="name"/></div>
 <div>Hello <input ng-model="name"/></div>
+```
 
 Pruebelo en: http://bit.ly/Zm55zM.
 
-En el primer div, AngularJS une scope.name del actual ambito al texto del elemento span. Esta unión es direccional: Si el valor de scope.name cambia, el texto del elemento span cambia; pero si nosotros cambiamos el texto del elemento span, el valor de scope.name no cambiara.     
+En el primer div, AngularJS une `scope.name` del actual ambito al texto del elemento `span`. Esta unión es direccional: Si el valor de `scope.name` cambia, el texto del elemento span cambia; pero si nosotros cambiamos el texto del elemento span, el valor de `scope.name` no cambiara.     
 
-En el segundo div, AngularJS une scope.name del actual ambito al valor del elemento input. Aquí el enlace de datos es realmente bidireccional, ya que si modificamos el valor del input escribiendo en él, el valor del modelo scope.name es instantaneamente actualizado. Esta actualización de scope.name se ve luego en el enlace direccional al span.
+En el segundo div, AngularJS une `scope.name` del actual ambito al valor del elemento `input`. Aquí el enlace de datos es realmente bidireccional, ya que si modificamos el valor del input escribiendo en él, el valor del modelo `scope.name` es instantaneamente actualizado. Esta actualización de `scope.name` se ve luego en el enlace direccional al `span`.
 
+![chapter-5-3](/img/chapter-5-3.png)
 
+> `NOTA` ¿Por qué tenemos una directiva diferente para especificar la unión en inputs? La directiva `ngBind` sólo enlaza (direccionalmente) el valor de su expresión al texto del elemento. Con `ngModel`, el enlace de datos es bidireccional, por lo que los cambios del valor del input se reflejan en el modelo.
 
-
-
-NOTA: ¿Por qué tenemos una directiva diferente para especificar la unión en inputs? La directiva ngBind sólo enlaza (direccionalmente) el valor de su expresión al texto del elemento. Con ngModel, el enlace de datos es bidireccional, por lo que los cambios del valor del input se reflejan en el modelo.
-
-Además, AngularJS permite a las directivas transformar y validar los valores de la directiva ngModel como el enlace de datos se sincroniza entre el modelo y la directiva input. Verás como esto trabaja en la sección ngModelController.
+Además, AngularJS permite a las directivas transformar y validar los valores de la directiva `ngModel` como el enlace de datos se sincroniza entre el modelo y la directiva input. Verás como esto trabaja en la sección `ngModelController`.
  
-Creación un Formulario de Información de usuario.
+### Creación un Formulario de Información de usuario.
 
 En esta sección describiremos un simple formulario de información de usuario de nuestro ejemplo de aplicación SCRUM. A lo largo de este capítulo de forma incremental añadiremos funcionalidades a este formulario para demostrar el poder de los formularios AngularJS. Aquí está nuestro básico formulario funcional:
 
+```
 <h1>User Info</h1>
 <label>E-mail</label>
 <input type="email" ng-model="user.email">
@@ -81,56 +80,55 @@ En esta sección describiremos un simple formulario de información de usuario d
 <label>Password (repeat)</label>
 <input type="password" ng-model="repeatPassword">
 
-
-
-
 <label>Roles</label>
 <label class="checkbox">
 <input type="checkbox" ng-model="user.admin"> Is Administrator
 </label>
 
 <pre ng-bind="user | json"></pre>
+```
 
 Pruebelo en: http://bit.ly/10ZomqS.
 
-Aunque parece que nosotros simplemente tenemos un lista de imputs HTML estándar, estos son en realidad directivas input AngularJS. A cada input se le ha dado una directiva ngModel que define que actual ámbito se unirá al valor del elemento input. En este caso, cada input es unido a un campo en el objeto user, que a su vez está unido al actual ámbito. En un controlador podemos registrar el valor de un campo del modelo de este modo:
+Aunque parece que nosotros simplemente tenemos un lista de imputs HTML estándar, estos son en realidad directivas `input` AngularJS. A cada input se le ha dado una directiva `ngModel` que define que actual ámbito se unirá al valor del elemento `input`. En este caso, cada input es unido a un campo en el objeto user, que a su vez está unido al actual ámbito. En un controlador podemos registrar el valor de un campo del modelo de este modo:
 
+```
 $log($scope.user.firstName);
+```
 
-Nótese que no hemos utilizado un elemento form o colocado atributos name o id en cualquiera de los elementos input. Para simples formularios sin validaciones esto es todo lo que necesitamos. AngularJS se asegura de que los valores de los elementos input estén sincronizados con los valores en el modelo. Estamos entonces libres para trabajar con el modelo de usuario en un controlador, por ejemplo, sin preocuparse de cómo se representan en la vista.
+Nótese que no hemos utilizado un elemento `form` o colocado atributos `name` o `id` en cualquiera de los elementos `input`. Para simples formularios sin validaciones esto es todo lo que necesitamos. AngularJS se asegura de que los valores de los elementos input estén sincronizados con los valores en el modelo. Estamos entonces libres para trabajar con el modelo de usuario en un controlador, por ejemplo, sin preocuparse de cómo se representan en la vista.
 
-NOTA: También agregamos un elemento pre con una representación JSON del modelo usuario. Esto es para que podamos ver lo que está siendo sincronizando al modelo por AngularJS
-Comprendiendo las directivas input
+> `NOTA` También agregamos un elemento `pre` con una representación JSON del modelo usuario. Esto es para que podamos ver lo que está siendo sincronizando al modelo por AngularJS
+
+### Comprendiendo las directivas input
 
 En esta sección describimos las directivas input AngularJS que se proporcionan fuera de la caja. Usar las directivas input es muy natural para las personas que usan los formularios HTML porque AngularJS construye sobre el HTML.
 
-Puedes usar todos los tipos de input HTML estándar en sus formularios. La directivas input trabajan con la directiva ngModel para soportar funcionalidades adicionales, tal como la validación o la unión al modelo. La directiva input AngularJS comprueba el tipo de atributos para identificar que tipo de funcionalidad añadir al elemento input.
+Puedes usar todos los tipos de input HTML estándar en sus formularios. La directivas `input` trabajan con la directiva `ngModel` para soportar funcionalidades adicionales, tal como la validación o la unión al modelo. La directiva `input` AngularJS comprueba el tipo de atributos para identificar que tipo de funcionalidad añadir al elemento `input`.
 
+### Añadiendo la validación requerida
 
-Añadiendo la validación requerida
+Todas las directivas input básicas soportan el uso del atributo `required` (o `ngRequired`). Añadiendo este atributo a su elemento `input` le dirá a AngularJS que el valor de `ngModel` es inválido si es `null`, `undefined`, o `""` (la cadena vacía). Consulte la siguiente sección sobre validación de campos para más información sobre esto.
 
-Todas las directivas input básicas soportan el uso del atributo required (o ngRequired). Añadiendo este atributo a su elemento input le dirá a AngularJS que el valor de ngModel es inválido si es null, undefined, o "" (la cadena vacía). Consulte la siguiente sección sobre validación de campos para más información sobre esto.
-Usando inputs basados en texto (text, textarea, e-mail,URL, number)
+### Usando inputs basados en texto (text, textarea, e-mail,URL, number)
 
-La directiva input básica, type="text" o textarea, acepta cualquier cadena para su valor. Cuando cambias el texto de el input, el modelo es instantáneamente actualizado con el valor.  
+La directiva `input` básica, `type="text"` o `textarea`, acepta cualquier cadena para su valor. Cuando cambias el texto de el `input`, el modelo es instantáneamente actualizado con el valor.  
 
-La otra directiva input basada en texto, tal como e-mail, URL, o number, actúa similarmente excepto que solo permite que el modelo se actualice si el valor en el input concuerda con la apropiada expresión regular. Si escribes dentro de input e-mail, el campo e-mail en el modelo está en blanco hasta que el input contenga una cadena e-mail válida. Esto significa que su modelo nunca contendrá una dirección de e-mail invalida. Este es uno de los beneficios de desacoplar el modelo de la vista.
+La otra directiva `input` basada en texto, tal como `e-mail`, `URL`, o `number`, actúa similarmente excepto que solo permite que el modelo se actualice si el valor en el input concuerda con la apropiada expresión regular. Si escribes dentro de `input` e-mail, el campo e-mail en el modelo está en blanco hasta que el input contenga una cadena e-mail válida. Esto significa que su modelo nunca contendrá una dirección de e-mail invalida. Este es uno de los beneficios de desacoplar el modelo de la vista.
 
-En adición a estas validaciones todas las directivas basadas en texto le permiten especificar un mínimo y un máximo de longitud para el texto así como también una arbitraria expresión regular que deba coincidir. Esto se hace con la directivas ngMinLength, ngMaxLength, y ngPattern:
+En adición a estas validaciones todas las directivas basadas en texto le permiten especificar un mínimo y un máximo de longitud para el texto así como también una arbitraria expresión regular que deba coincidir. Esto se hace con la directivas `ngMinLength`, `ngMaxLength`, y `ngPattern`:
 
-<input type="password" ng-model="user.password" ng-minlength="3" ng-maxlength="10"
-ng-pattern="/^.*(?=.*\d)(?=.*[a-zA-Z]).*$/">
+```
+<input type="password" ng-model="user.password" ng-minlength="3" ng-maxlength="10" ng-pattern="/^.*(?=.*\d)(?=.*[a-zA-Z]).*$/">
+```
 
 Pruebelo en: http://bit.ly/153L87Q.
 
-Aquí, el campo de modelo user.password debe tener entre 3 y 10 caracteres, inclusive, debe coincidir con una expresión regular que le obliga a incluir al menos una letra y un número.
+Aquí, el campo de modelo `user.password` debe tener entre 3 y 10 caracteres, inclusive, debe coincidir con una expresión regular que le obliga a incluir al menos una letra y un número.
 
-NOTA: Tenga en cuenta que estas funciones de validación incorporadas no dejan que el usuario
-ingrese una cadena no válida. La directiva simplemente borra el campo de modelo si la cadena es inválida.
+> `NOTA` Tenga en cuenta que estas funciones de validación incorporadas no dejan que el usuario ingrese una cadena no válida. La directiva simplemente borra el campo de modelo si la cadena es inválida.
 
-
-
-Usando inputs checkbox
+### Usando inputs checkbox
 
 Checkboxes simplemente indican un input booleano. En nuestro formulario, la directiva input asigna true o false a el campo de modelo que es especificado por ngModel. Puede ver esto sucediendo en nuestro formulario de información de usuario para el campo "Es administrador".
 

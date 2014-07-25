@@ -1,4 +1,4 @@
-### Capítulo 4. Mostrar y dar formato a datos
+## Capítulo 4. Mostrar y dar formato a datos
 
 Ahora que conocemos como obtener data de un back-end en el navegador podemos enfocarnos en desplegar y manipular la data usando AngularJS. Este capítulo comienza con una visión general de las directivas AngularJS usadas en plantillas. Tan pronto como los fundamentos sean cubiertos veremos diferentes directivas en acción y discutiremos sus patrones de uso. También hay una amplia cobertura de los filtros AngularJS.
 
@@ -11,7 +11,7 @@ En este capítulo aprenderás sobre:
 - Limitaciones del lenguaje de plantilla basados en DOM de AngularJS y posibles soluciones.
 - Filtros: su propósito y ejemplos de uso. Vamos a ir sobre filtros integrados, así como la forma de crear y probar un filtro personalizado.
 
-### Hacer referencia a las directivas
+## Hacer referencia a las directivas
 
 Antes de ir sobre los ejemplos de las diferentes directivas incorporadas AngularJS, es importante destacar que podemos usar una variedad de convenciones de nombre al referenciar directivas en el marcado HTML.
 
@@ -52,7 +52,7 @@ Aqui estamos cambiando los valores predeterminados `{{}}` a `[[]]` por lo que m�
 [[expression]]
 ```
 
-### Representando valores del modelo con ngBing
+## Representando valores del modelo con ngBing
 
 La directiva de interpolación tiene una directiva equivalente llamada `ng-bing`. Puede ser usada como un atributo HTML:
 
@@ -339,7 +339,7 @@ Aqui la directiva `ngClass` es usada con un objeto argumentado. Las claves de es
 
 > `TIP` La directiva puede aceptar también argumentos del tipo cadena o array. Ambos argumentos puede contener una lista de clases CSS (separados por coma en caso de una cadena) para ser añadida a un elemento dado.  
 
-### Controladores de eventos DOM
+## Controladores de eventos DOM
 
 Nuestra interfaz de usuario no sería muy útil si los usuarios no pudieran interactuar con ella (ya sea mediante el uso de un ratón, un teclado o eventos táctiles). Las buenas noticias es que registro de controladores de eventos es un juego de niños con AngularJS! Aqui un ejemplo de reaccionar ante un evento de clic:
 
@@ -383,7 +383,7 @@ $scope.logPosition = function (item, $event) {
 
 > `TIP` Mientras que la especial variable `$event` es expuesta al controlador de evento, no se debe abusar de hacer manipulaciones DOM extensivas. Como recordarás del **Capítulo 1, Angular Zen**, en AngularJS todo es sobre la declarativa interfaz de usuario y la manipulación DOM debería ser limitada a las directivas. Esta es la razón por la cual el argumento `$event` es mayormente usado dentro del código de las directivas.
 
-### Trabajando efectivamente con plantillas basadas en DOM.
+## Trabajando efectivamente con plantillas basadas en DOM.
 
 No es muy común ver un sistema de plantillas implementado la sintaxis HTML y DOM en vivo, pero este enfoque resulta funcionar sorprendentemente bien en la práctica. La personas que usan otro motor de plantillas basado en cadenas puede ser que necesiten un poco de tiempo para adaptarse, pero luego de unos pocos saltos iniciales escribiendo plantillas basadas en DOM se convierte en una segunda naturaleza. Hay sólo un par de advertencias.
 
@@ -477,7 +477,7 @@ Donde el fragmento incluido especifica el tipo de campo de entrada como una cade
 
 Por último, necesitamos mencionar que elementos personalizados HTML y atributos no son bien soportado por la versión 8 de Internet Explorer y anteriores. Hay paso adiciones que debe ser emprendidos para tomar todas las ventajas de las directivas AngularJS EN IE8 y IE7, y aquellas son describidas en detalles en el **Capítulo 12, Empaquetando y Desplegando Aplicaciones Web AngularJS**.
 
-### Manejando la transformación del modelo con filtros.
+## Manejando la transformación del modelo con filtros.
 
 Las expresiones AngularJS pueden llegar a ser bastante complejas y contener invocaciones de funciones. Esas funciones pueden servir diferentes propósitos pero las transformaciones y formateo del modelo son necesidades comunes. Para atender esos usos de caso comunes, AngularJS soporta funciones de formato especial (transformación) llamadas filtros.
 
@@ -915,7 +915,7 @@ Como esta, un valor aleatorio será calculado antes que se procese la plantilla 
 
 Si su función puede generar diferentes resultados para el mismo campo de entrada no es un buen candidato para un filtro. En su lugar invoque esta función desde un controlador y deje a AngularJS que reprecente el valor pre-calculado.
 
-### Resumen
+## Resumen
 
 En este capítulo se nos llevó a través de un conjunto de patrones utilizados para mostrar los datos que están contenidos en el modelo.
 
