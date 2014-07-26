@@ -109,8 +109,7 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
     - Depuración      
 - **Resumen**
 
-
-## Capítulo 3. Comunicación con un servidor back-end
+## [Capítulo 3. Comunicación con un servidor back-end](/chapter-3.md)
 
 - **Haciendo solicitudes XHR y JSON con $http**
   - Familizializarce com el modelo de datos y la URLs MongoLab
@@ -151,7 +150,7 @@ Traducción al español del libro de Peter Bacon Darwin, Pawel Kozlowski. (Augus
 - **Probando el código que interactúa con $http**
 - **Resumen**
 
-## Capítulo 4. Mostrar y dar formato a datos
+## [Capítulo 4. Mostrar y dar formato a datos](/chapter-4.md)
 
 - **Hacer referencia a las directivas**
 - **Desplegando resultados de expresiones de evaluación**
