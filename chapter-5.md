@@ -53,7 +53,7 @@ En el segundo div, AngularJS une `scope.name` del actual ambito al valor del ele
 
 Además, AngularJS permite a las directivas transformar y validar los valores de la directiva `ngModel` como el enlace de datos se sincroniza entre el modelo y la directiva input. Verás como esto trabaja en la sección `ngModelController`.
  
-### Creación un Formulario de Información de usuario.
+## Creación un Formulario de Información de usuario.
 
 En esta sección describiremos un simple formulario de información de usuario de nuestro ejemplo de aplicación SCRUM. A lo largo de este capítulo de forma incremental añadiremos funcionalidades a este formulario para demostrar el poder de los formularios AngularJS. Aquí está nuestro básico formulario funcional:
 
@@ -100,7 +100,7 @@ Nótese que no hemos utilizado un elemento `form` o colocado atributos `name` o 
 
 > `NOTA` También agregamos un elemento `pre` con una representación JSON del modelo usuario. Esto es para que podamos ver lo que está siendo sincronizando al modelo por AngularJS
 
-### Comprendiendo las directivas input
+## Comprendiendo las directivas input
 
 En esta sección describimos las directivas input AngularJS que se proporcionan fuera de la caja. Usar las directivas input es muy natural para las personas que usan los formularios HTML porque AngularJS construye sobre el HTML.
 
@@ -367,7 +367,7 @@ Aqui el HTML enviado por el servidor contiene un elemento form que incluye un di
 
 Tradicionalmente, usted podría haber querido enviar valores al servidor que no están en la vista, es decir, no es un control de entrada visible (input visible). Esto se habría logrado mediante la adición de campos ocultos a su formulario. En AngularJS, trabajamos a partir de un modelo que está desacoplado del formulario, por lo que no necesitamos esos campos ocultos. Nosotros simplemente añadimos tales valores al ámbito y luego simulamos el envío del formulario usando el servicio `$http`. Ve el Capítulo 3, comunicación con el servidor Back-end para saber cómo hacerlo.  
 
-### Mirando dentro del enlace de datos de ngModel
+## Mirando dentro del enlace de datos de ngModel
 
 Hasta ahora hemos visto que `ngModel` crea una unión entre el modelo y el valor en un campo de entrada. En esta sección vemos en profundidad en lo demás que esta directiva proporciona y cómo funciona.                                          
 
@@ -417,7 +417,7 @@ Aquí, podemos usar la combinación de original (pristine) y inválida para aseg
 
 En la próxima sesión. Validando formularios, veremos cómo podemos trabajar con el concepto de original (pristine), sucio (dirty), válido  (valid), y inválido (invalid) programáticamente.
 
-### Validando formularios AngularJS
+## Validando formularios AngularJS
 
 En esta sección vamos a explicar como usar directivas de validación y como funciona con el controlador `ngFormController` para proporcionar un marco de validación completo.
 
@@ -515,7 +515,7 @@ Pruébalo en: http://bit.ly/123zIhw
 
 El método canSave() comprueba si el usuario userInfoForm tiene la bandera $valid y $dirty establecida. Si es así, el formulario está listo para ser guardado.
 
-### Deshabilitando la validación nativa del navegador.
+### Deshabilitando la validación nativa del navegador
 
 Los navegadores modernos naturalmente tratan de validar el valor del input en un formulario. Normalmente esto ocurre cuando el formulario es enviado. Por ejemplo, si tienes un atributo required en un campo input, el navegador se quejara de forma independiente de AngularJS, si el campo no contiene un valor cuando tratas de enviar el formulario.
 
@@ -529,13 +529,13 @@ Pruébalo en: http://bit.ly/1110hS4
 
 Este formulario es llamado novalidateForm y el atributo novalidate le dirá al navegador que no intente la validación en cualquier inputs del formulario.
 
-### Formularios Anidados en otros Formularios.
+## Formularios Anidados en otros Formularios
 
 A diferencia de los formularios HTML estándar, los formularios AngularJS pueden ser anidados uno dentro del otro. Ya que las etiquetas form dentro de otras etiquetas form es HTML inválido, AngularJS provee la directiva ngForm para anidar formularios.
 
 > `NOTA` Cada formulario que proporcione un nombre (name) será añadido a su formulario padre, o directiva en el ámbito sí no tiene un formulario padre.
 
-### Usando Sub-Formularios como componentes reusables.
+### Usando Sub-Formularios como componentes reusables
 
 Un formulario anidado actúa como un campo compuesto que expone su propia información de validación basado en los campos que esta contenga.  Tal que los formularios puedan ser usados y reusados como subformularios mediante su inclusión en contenedores de formularios. Aquí agrupamos dos cajas inputs para crear un widget de contraseña y confirmación de contraseña:
 
@@ -570,7 +570,7 @@ Definimos nuestro subformulario en una plantilla parcial. En este caso él está
 
 El subformulario tiene su propio estado de validación y clases CSS relacionadas. También nota que, debido a que el subformularios tiene un atributo name, este aparece como una propiedad en el formulario contenedor.
 
-### Repitiendo subformularios.   
+## Repitiendo subformularios.   
 
 Algunas veces, tenemos campos en un formulario que necesitan ser repetidos un arbitrario número de veces basados en los datos en el modelo. Esta es una situación común en la que desea proporcionar un solo formulario que pueda representar una relación de uno-a-muchos en los datos.
 
@@ -662,11 +662,11 @@ Hacemos uso de esto para mostrar un mensaje de error cuando el campo es inválid
 
 Fuera de ngForm no podemos referencia al objeto websiteForm ( ngFormController ) en el ámbito o el objeto websiteForm.website ( ngModelController ) ya que no existen en este ámbito. Podemos, sin embargo, acceder al objeto que contiene userForm (ngFormController). Esta validación de formularios esta basada en la validación de todos sus inputs hijos y formularios. Si uno de los websiteForms es inválido, entonces lo es userForm. El div en la parte superior del formulario despliega un mensaje de error global sólo si userForms.$valid es verdadero.   
 
-### Manejo de envío de formularios HTML tradicionales.
+## Manejar el envío de formularios HTML tradicionales
 
 En esta sección echamos un vistazo a cómo AngularJS maneja el envio de formularios. Aplicaciones AJAX de una sola página, para lo cual AngularJS es perfecto, no tiende a seguir el mismo proceso de envío directo al servidor como lo hace las aplicaciones web tradicionales.  Pero alguna veces su aplicación debe soportar esto. Aquí mostramos los diferentes escenarios de envío que puede que desee implementar cuando enviamos datos del formulario al servidor.
 
-### Enviando formularios directamente al el servidor.
+### Enviando formularios directamente al el servidor
 
 Si usted incluye un atributo action en un formulario en una aplicación AngularJS, entonces el formulario se enviará de forma normal a la URL definida en la acción:  
 
@@ -680,7 +680,7 @@ Pruébalo en: http://bit.ly/115cQgq
 
 > `NOTA` Tenga en cuenta que la vista previa en Plnkr bloqueará la redirección a Google.
 
-### Manejando eventos de envio de formulario.
+### Manejando eventos de envio de formulario
 
 Si no incluyes el atributo action, entonces AngularJS asume que vamos a administrar los envíos de formulario en el lado del cliente llamando la función en el ámbito. En este caso, AngularJS impedirá que el formulario intente directamente enviar al servidor.
 
@@ -702,7 +702,7 @@ Pruébalo en: http://bit.ly/ZQBLYj
 
 Aqui, presionamos Enter mientras en el input llamará el método showAlert.
 
-### Restableciendo el formulario de información del usuario.
+## Restableciendo el formulario de información del usuario
 
 En nuestro formulario de información de usuario, no gustaría cancelar los cambios y restablecer el formulario a su estado original. Hacemos esto manteniendo una copia del modelo original con el cual podemos reescribir cualquier cambio que el usuario ha hecho.     
 
@@ -747,7 +747,7 @@ Aquí tenemos un botón para revertir el modelo a su estado original. Haciendo c
 
 En el controlador, puede ver que usamos angular.copy() para hacer una copia del modelo y colocarlo en una variable local. El método revert() copia este original sobre el modelo user funcional y establece el formulario de regreso a su estado original de manera que todas las clases CSS no son más establecidas a ng-dirty.
 
-### Resumen
+## Resumen
 
 En este capítulo hemos visto como AngularJS extiende los controles de formularios HTML estándar para proporcionar una más flexible y poderoso sistema para obtener una entrada del usuario. Se permite una separación del modelo de la vista a través de ngModel y proporciona mecanismos para seguir cambios y validaciones de valores de inputs a través de las directivas de validación en el objeto ngFormController.
 

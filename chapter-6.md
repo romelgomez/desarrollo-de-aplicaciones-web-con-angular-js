@@ -1,4 +1,4 @@
-Capítulo 6. Navegación Organizada
+## Capítulo 6. Navegación Organizada
 
 En capítulos anteriores, aprendimos cómo extraer datos desde un back-end, editar esos datos usando formularios potenciados por AngularJS, y desplegar los datos en páginas individuales implementando varias directivas. En este capítulo, veremos como organizar pantallas separadas en una aplicación completamente funcional, y fácil de navegar.   
    
