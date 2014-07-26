@@ -4,21 +4,19 @@ En capítulos anteriores, aprendimos cómo extraer datos desde un back-end, edit
    
 Las URLs (Localizadores de recursos uniformes) bien diseñadas y fáciles de recordar juega un vital rol en la estructuración de un aplicación para nuestros usuarios. Estas les permiten moverse efectivamente entre diferentes pantallas, usando las características con las que se sienten cómodos.  AngularJS incluye varios servicios y directivas que traen soporte a las URLs encontradas en las aplicaciones web 1.0 para las aplicaciones web de una sola página, los más notables son los siguientes:
 
-
-Deep-linking URLs se refiere a una específica característica en aplicaciones web de una sola página. Ellos pueden ser marcados o pasados alrededor (por ejemplo en un correo o una mensaje instantáneo).
-Los botones adelante y atrás en un navegador se comportan como se esperan, permitiendo a los usuarios moverse entre las diferentes pantallas de la aplicación web de una sola página.
-Las URL pueden tener un excelente formato fácil de recordar en los navegadores que soportan la API history HTML5.
-El soporte de url en AngularJS es consistente a lo largo de los navegadores, el mismo código de la aplicación funciona correctamente en los navegadores con soporte completo para la API history HTML5 así como en navegadores viejos.
+- Deep-linking URLs se refiere a una específica característica en aplicaciones web de una sola página. Ellos pueden ser marcados o pasados alrededor (por ejemplo en un correo o una mensaje instantáneo).
+- Los botones adelante y atrás en un navegador se comportan como se esperan, permitiendo a los usuarios moverse entre las diferentes pantallas de la aplicación web de una sola página.
+- Las URL pueden tener un excelente formato fácil de recordar en los navegadores que soportan la API history HTML5.
+- El soporte de url en AngularJS es consistente a lo largo de los navegadores, el mismo código de la aplicación funciona correctamente en los navegadores con soporte completo para la API history HTML5 así como en navegadores viejos.
 
 Angular tiene sofisticada maquinaria para manejar URLs. En este capítulo, vamos a aprender sobre los siguiente tópicos:
 
-El uso de las URLs en las aplicaciones web de una sola página.
-El enfoque de AngularJS para las URLs y sus abstraciones sobre las URLs: Los servicios $location y $anchorScroll.
-Organizando la navegación en una aplicación web en el lado del cliente usando el servicio $route (con su proveedor- $routeProvider) y la directiva ngView
-Patrones comunes, tips, y trucos cuando uses URLs en aplicaciones web AngularJS potenciada de una sola página.
+- El uso de las URLs en las aplicaciones web de una sola página.
+- El enfoque de AngularJS para las URLs y sus abstraciones sobre las URLs: Los servicios $location y $anchorScroll.
+- Organizando la navegación en una aplicación web en el lado del cliente usando el servicio $route (con su proveedor- $routeProvider) y la directiva ngView
+- Patrones comunes, tips, y trucos cuando uses URLs en aplicaciones web AngularJS potenciada de una sola página.
 
-
-URLs en aplicaciones web de una sola-página.
+### URLs en aplicaciones web de una sola-página.
 
 La navegación entre páginas fue sencilla en los primeros días de la web. Uno podía escribir una URL en la barra de direcciones del navegador para recuperar un preciso recurso indefinido. Después de todo, un URL es usada para apuntar un solo, recurso físico (un archivo) en un servidor. Cuando una página fue cargada, podemos seguir hipervínculos para saltar entre recursos como también usar los botones adelante y atrás del navegador para movernos entre los elementos visitados.
 
@@ -28,7 +26,7 @@ Las aplicaciones web de una sola página, no mejoró la situación, ni mucho men
 
 Pero los botones adelante y atrás del navegador y la habilidad de marcar URLs es muy útil. Los Usuarios no quieren renunciar a ellos, mientras trabajan con una aplicación web de una sola página! Afortunadamente, AngularJS esta bien equipado para ayudarnos a manejar URL con la misma eficiencia como en los buenos, viejos tiempos de los estáticos recursos de la web.
 
-Hashbang URLs en la era pre-HTML5
+### Hashbang URLs en la era pre-HTML5
 
 Resulta que hay un truco que puede restaurar un decente soporte para las URLs en las aplicaciones web AJAX pesadas.
 
@@ -36,9 +34,9 @@ El truco está basado en el hecho de que podemos modificar parte de la url en la
 
  Vamos a considerar un conjunto típico de URLs que a menudo son usadas en las aplicaciones tales como CRUD. Idealmente, nos gustaría tener una URL apuntado a una lista de elementos, un formulario de edición para un elemento, un formulario para nuevos elementos, y así en adelante. Tomando la administración de usuarios (de nuestro ejemplo de aplicación SCRUM), como ejemplo, podríamos típicamente tener las siguiente distintas URL parciales:
 
-•	 /admin/users/list – Esta URL muestra una lista de los usuario existentes.
-•	 /admin/users/new – Esta URL muestra un formulario para añadir una nuevo usuario
-•	 /admin/users/[userId] – Esta URL muestra un formulario para editar un existente usuario con el ID igual a [ userId ]
+- /admin/users/list – Esta URL muestra una lista de los usuario existentes.
+- /admin/users/new – Esta URL muestra un formulario para añadir una nuevo usuario
+- /admin/users/[userId] – Esta URL muestra un formulario para editar un existente usuario con el ID igual a [ userId ]
 
 Podemos traducir esa URLs parciales a completas URLs con fragmentos en una aplicación web de una sola página usando el truco # como a continuación se muestra:
 
