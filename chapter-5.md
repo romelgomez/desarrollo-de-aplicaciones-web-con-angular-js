@@ -439,7 +439,7 @@ La siguiente tabla muestra como el ámbito contiene el controlador asociado con 
 
 Nuestro formulario nos permite ingresar valores dentro de campos y podemos cambiar la apariencia de los elementos input basados en los valores ingresados. Pero para una más responsable experiencia de usuario, nos gustaría mostrar y ocultar los mensajes de validación y cambiar el estado de los botones en nuestro formulario dependiendo del estado del los campos del formulario.
 
-Teniendo los objetos ngFormController y  ngModelControllers en nuestro ámbito nos permite trabajar con el estado del formulario programáticamente. Podemos usar valores tales como $invalid y $dirty para cambiar que es habilitado o visible al nuestro usuario.
+Teniendo los objetos `ngFormController` y  `ngModelControllers` en nuestro ámbito nos permite trabajar con el estado del formulario programáticamente. Podemos usar valores tales como `$invalid` y `$dirty` para cambiar que es habilitado o visible al nuestro usuario.
 
 ### Mostrando errores de validación
 
@@ -483,11 +483,11 @@ Pruébalo en: http://bit.ly/XwLUFZ
 
 Este ejemplo muestra el input e-mail para nuestro formulario de usuario (User Form). Estamos usando Twitter Bootstrap CSS para estilizar el formulario, de ahí las clases CSS control-group y inline-help. También hemos creado dos funciones ayudantes (helper) en el controlador.
 
-La directiva ng-class actualizará las clases CSS en el div que contiene la etiqueta, el input, y el texto de ayuda. Llama el método getCssClasses(), pasando un objeto y un nombre de error.   
+La directiva `ng-class` actualizará las clases CSS en el div que contiene la etiqueta, el input, y el texto de ayuda. Llama el método `getCssClasses()`, pasando un objeto y un nombre de error.   
 
-> `NOTA` El parámetro objeto es actualmente es el ngModelController, que ha sido expuesto en el ngFormController, que a su vez se expone en el ámbito scope.userInfoForm.email.
+> `NOTA` El parámetro objeto es actualmente es el `ngModelController`, que ha sido expuesto en el `ngFormController`, que a su vez se expone en el ámbito `scope.userInfoForm.email`.
 
-El método getCssClasses() retorna un objeto que define que clase CSS debe ser añadida. La llave de cada objeto se refiere al nombre de una clase CSS. El valor de cada miembro es true si la clase es añadida. En este caso  getCssClasses() retornará error si el modelo es sucio y invalido y success si el modelo es sucio y válido.
+El método `getCssClasses()` retorna un objeto que define que clase CSS debe ser añadida. La llave de cada objeto se refiere al nombre de una clase CSS. El valor de cada miembro es true si la clase es añadida. En este caso  `getCssClasses()` retornará error si el modelo es sucio y invalido y success si el modelo es sucio y válido.
 
 ### Deshabilitando el botón de guardado.
 
@@ -527,11 +527,11 @@ Ya que estamos proporcionado toda la validación a través de las directivas Ang
 
 Pruébalo en: http://bit.ly/1110hS4
 
-Este formulario es llamado novalidateForm y el atributo novalidate le dirá al navegador que no intente la validación en cualquier inputs del formulario.
+Este formulario es llamado `novalidateForm` y el atributo `novalidate` le dirá al navegador que no intente la validación en cualquier inputs del formulario.
 
 ## Formularios Anidados en otros Formularios
 
-A diferencia de los formularios HTML estándar, los formularios AngularJS pueden ser anidados uno dentro del otro. Ya que las etiquetas form dentro de otras etiquetas form es HTML inválido, AngularJS provee la directiva ngForm para anidar formularios.
+A diferencia de los formularios HTML estándar, los formularios AngularJS pueden ser anidados uno dentro del otro. Ya que las etiquetas form dentro de otras etiquetas form es HTML inválido, AngularJS provee la directiva `ngForm` para anidar formularios.
 
 > `NOTA` Cada formulario que proporcione un nombre (name) será añadido a su formulario padre, o directiva en el ámbito sí no tiene un formulario padre.
 
@@ -566,7 +566,7 @@ Un formulario anidado actúa como un campo compuesto que expone su propia inform
 
 Pruebalo en: http://bit.ly/10QWwyu
 
-Definimos nuestro subformulario en una plantilla parcial. En este caso él está en línea en un bloque de script pero podría estar en un archivo también. Luego tenemos nuestro contenedor de formulario, form1, el cual incluye el subformulario usando la directiva ngInclude.
+Definimos nuestro subformulario en una plantilla parcial. En este caso él está en línea en un bloque de script pero podría estar en un archivo también. Luego tenemos nuestro contenedor de formulario, `form1`, el cual incluye el subformulario usando la directiva `ngInclude`.
 
 El subformulario tiene su propio estado de validación y clases CSS relacionadas. También nota que, debido a que el subformularios tiene un atributo name, este aparece como una propiedad en el formulario contenedor.
 
@@ -574,7 +574,7 @@ El subformulario tiene su propio estado de validación y clases CSS relacionadas
 
 Algunas veces, tenemos campos en un formulario que necesitan ser repetidos un arbitrario número de veces basados en los datos en el modelo. Esta es una situación común en la que desea proporcionar un solo formulario que pueda representar una relación de uno-a-muchos en los datos.
 
-En nuestra aplicación SCRUM, nos gustaría permitir a los usuarios tener cero o más URLs de sitios web en su perfil de información de usuario.  Podemos usar una directiva ngRepeat para establecer esto:   
+En nuestra aplicación SCRUM, nos gustaría permitir a los usuarios tener cero o más URLs de sitios web en su perfil de información de usuario.  Podemos usar una directiva `ngRepeat` para establecer esto:   
 
 ```
  <form ng-controller="MainCtrl">
@@ -588,7 +588,7 @@ En nuestra aplicación SCRUM, nos gustaría permitir a los usuarios tener cero o
  </form>
 ```
 
-El controlador inicializa el modelo y proporciona las funciones ayudantes, remove() y add():
+El controlador inicializa el modelo y proporciona las funciones ayudantes, `remove()` y `add()`:
 
 ```
 app.controller('MainCtrl', function($scope) {
@@ -609,13 +609,13 @@ app.controller('MainCtrl', function($scope) {
 
 Pruébalo en: http://bit.ly/XHLEWQ
 
-En la plantilla, tenemos una directiva ngRepeat que itera sobre los sitios web en el perfil del usuario. Cada directiva input en el bloque repetido, es el dato enlazado al correspondiente website.url en el modelo user.websites. La función ayudante se encarga de añadir y remover elementos hacia y desde la matriz, y el enlace de datos AngularJS hace el resto.
+En la plantilla, tenemos una directiva `ngRepeat` que itera sobre los sitios web en el perfil del usuario. Cada directiva input en el bloque repetido, es el dato enlazado al correspondiente `website.url` en el modelo `user.websites`. La función ayudante se encarga de añadir y remover elementos hacia y desde la matriz, y el enlace de datos AngularJS hace el resto.
 
-> `NOTA` Resulta tentador que para cada elemento website en la matriz websites esta sea una cadena simple que contenga la URL. Esto no funcionará ya que, en JavaScript, las cadenas son analizadas por valor y entonces la referencia entre la cadena en el bloque ngRepear y la cadena en la matriz se perderá cuando modifiques el valor del input.      
+> `NOTA` Resulta tentador que para cada elemento website en la matriz websites esta sea una cadena simple que contenga la URL. Esto no funcionará ya que, en JavaScript, las cadenas son analizadas por valor y entonces la referencia entre la cadena en el bloque `ngRepear` y la cadena en la matriz se perderá cuando modifiques el valor del input.      
 
 ### Validando inputs repetidos.
 
-El problema con este enfoque viene cuando quieres hacer el trabajo de validación en estos campos repetidos. Necesitamos que cada input tenga un único nombre dentro del formulario con el fin de acceder a la validación de ese campo, $valid, $invalid, $pristine, $dirty, etc. Desafortunadamente, AngularJS no te permite generar dinámicamente el atributo nombre para la directivas input. El nombre debe ser una cadena fija.
+El problema con este enfoque viene cuando quieres hacer el trabajo de validación en estos campos repetidos. Necesitamos que cada input tenga un único nombre dentro del formulario con el fin de acceder a la validación de ese campo, `$valid`, `$invalid`, `$pristine`, `$dirty`, etc. Desafortunadamente, AngularJS no te permite generar dinámicamente el atributo nombre para la directivas input. El nombre debe ser una cadena fija.
 
 Resolvemos este problema usando formularios anidados. Cada uno se expone en el ámbito actual, entonces si colocamos un formulario anidado dentro de cada bloque repetido que contenga las directivas input repetidas, tendremos acceso en el ámbito a la validación de campos.
 
@@ -656,11 +656,11 @@ app.controller('MainCtrl', function($scope) {
 
 Pruébalo en: http://bit.ly/14i1sTp
 
-Aquí estamos aplicado la directiva ngForm al div, para crear un formulario anidado, que es repetido para cada website en la matriz de websites en el ámbito. Cada uno de los formularios anidados son llamados websiteForm y cada input en el formulario es llamado website. Esto significa que estamos en condiciones de acceder a la validez del ngModel para cada website desde dentro del ámbito ngRepeat.
+Aquí estamos aplicado la directiva `ngForm` al `div`, para crear un formulario anidado, que es repetido para cada `website` en la matriz de websites en el ámbito. Cada uno de los formularios anidados son llamados `websiteForm` y cada input en el formulario es llamado website. Esto significa que estamos en condiciones de acceder a la validez del `ngModel` para cada website desde dentro del ámbito `ngRepeat`.
 
-Hacemos uso de esto para mostrar un mensaje de error cuando el campo es inválido. La dos directivas ng-show mostraran su mensaje de error cuando la función retorna true. La función showError comprueba el pasado en ngModelController para ver si este tiene la entrada pertinente para la validación en el campo $error. Podemos pasar websiteForm.website a esta función ya que este se refiere a el objeto ngModelController para nuestro campo input website.
+Hacemos uso de esto para mostrar un mensaje de error cuando el campo es inválido. La dos directivas `ng-show` mostraran su mensaje de error cuando la función retorna `true`. La función showError comprueba el pasado en `ngModelController` para ver si este tiene la entrada pertinente para la validación en el campo `$error`. Podemos pasar `websiteForm.website` a esta función ya que este se refiere a el objeto `ngModelController` para nuestro campo input website.
 
-Fuera de ngForm no podemos referencia al objeto websiteForm ( ngFormController ) en el ámbito o el objeto websiteForm.website ( ngModelController ) ya que no existen en este ámbito. Podemos, sin embargo, acceder al objeto que contiene userForm (ngFormController). Esta validación de formularios esta basada en la validación de todos sus inputs hijos y formularios. Si uno de los websiteForms es inválido, entonces lo es userForm. El div en la parte superior del formulario despliega un mensaje de error global sólo si userForms.$valid es verdadero.   
+Fuera de `ngForm` no podemos referencia al objeto websiteForm (`ngFormController`) en el ámbito o el objeto `websiteForm.website` (`ngModelController`) ya que no existen en este ámbito. Podemos, sin embargo, acceder al objeto que contiene `userForm` `(ngFormController`). Esta validación de formularios esta basada en la validación de todos sus inputs hijos y formularios. Si uno de los websiteForms es inválido, entonces lo es `userForm`. El `div` en la parte superior del formulario despliega un mensaje de error global sólo si `userForms.$valid` es verdadero.   
 
 ## Manejar el envío de formularios HTML tradicionales
 
@@ -684,13 +684,13 @@ Pruébalo en: http://bit.ly/115cQgq
 
 Si no incluyes el atributo action, entonces AngularJS asume que vamos a administrar los envíos de formulario en el lado del cliente llamando la función en el ámbito. En este caso, AngularJS impedirá que el formulario intente directamente enviar al servidor.
 
-Podemos desencadenar esta función del lado del cliente usando la directiva ngClick en un botón (button) o la directiva ngSubmit en el formulario (form).  
+Podemos desencadenar esta función del lado del cliente usando la directiva `ngClick` en un botón (button) o la directiva `ngSubmit` en el formulario (form).  
 
-> `NOTA` Usted no debe usar ambas directivas ngSubmit y ngClick en un mismo formulario porque el navegador desencadenará ambas directivas y usted obtendrá doble envio.
+> `NOTA` Usted no debe usar ambas directivas `ngSubmit` y `ngClick` en un mismo formulario porque el navegador desencadenará ambas directivas y usted obtendrá doble envio.
 
 ### Usando ngSubmit para manejar el envío del formulario
 
-Para usar ngSubmit en un formulario, usted proporciona una expresión que será evaluada cuando el formulario es enviado. El envío de formulario pasará cuando el usuario presione Enter en uno de los campos o haga click en uno de los botones:
+Para usar `ngSubmit` en un formulario, usted proporciona una expresión que será evaluada cuando el formulario es enviado. El envío de formulario pasará cuando el usuario presione Enter en uno de los campos o haga click en uno de los botones:
 
 ```
 <form ng-submit="showAlert(q)">
@@ -700,7 +700,26 @@ Para usar ngSubmit en un formulario, usted proporciona una expresión que será 
 
 Pruébalo en: http://bit.ly/ZQBLYj
 
-Aqui, presionamos Enter mientras en el input llamará el método showAlert.
+Aqui, presionamos Enter mientras en el input llamará el método `showAlert`.
+
+> `Nota` Debes usar `ngSubmit` solo en un formulario que tenga un solo input y no más de un botón, tal como nuestro formulario de búsqueda en el ejemplo.
+
+
+### Usando ngClick para manejar el envío del formulario
+
+Para usar `ngClick`, en un `botton` o `input [type=submit]`, proporcionas una expresión que será evaluada cuando el button es clickeado. 
+
+```
+<form>
+  <input ng-model="q">
+  <button ng-click="showAlert(q)">Search</button>
+</form>
+```
+
+Pruébalo en: http://bit.ly/153OvLS
+
+Aqui, clickear en el botón o presionar Enter en el campo input, llamará el método `showAlert`.
+
 
 ## Restableciendo el formulario de información del usuario
 
@@ -743,14 +762,14 @@ app.controller('MainCtrl', function($scope) {
 
 Pruébalo en: http://bit.ly/17vHLWX
 
-Aquí tenemos un botón para revertir el modelo a su estado original. Haciendo click en esta boton, llama a la función revert() en el ámbito. El botón se desactiva si canRevert() retorna false.
+Aquí tenemos un botón para revertir el modelo a su estado original. Haciendo click en esta boton, llama a la función `revert()` en el ámbito. El botón se desactiva si `canRevert()` retorna `false`.
 
-En el controlador, puede ver que usamos angular.copy() para hacer una copia del modelo y colocarlo en una variable local. El método revert() copia este original sobre el modelo user funcional y establece el formulario de regreso a su estado original de manera que todas las clases CSS no son más establecidas a ng-dirty.
+En el controlador, puede ver que usamos `angular.copy()` para hacer una copia del modelo y colocarlo en una variable local. El método `revert()` copia este original sobre el modelo user funcional y establece el formulario de regreso a su estado original de manera que todas las clases CSS no son más establecidas a `ng-dirty`.
 
 ## Resumen
 
-En este capítulo hemos visto como AngularJS extiende los controles de formularios HTML estándar para proporcionar una más flexible y poderoso sistema para obtener una entrada del usuario. Se permite una separación del modelo de la vista a través de ngModel y proporciona mecanismos para seguir cambios y validaciones de valores de inputs a través de las directivas de validación en el objeto ngFormController.
+En este capítulo hemos visto como AngularJS extiende los controles de formularios HTML estándar para proporcionar una más flexible y poderoso sistema para obtener una entrada del usuario. Se permite una separación del modelo de la vista a través de `ngModel` y proporciona mecanismos para seguir cambios y validaciones de valores de inputs a través de las directivas de validación en el objeto `ngFormController`.
 
-En el proximo capitulo veremos como administrar de la mejor forma la navegación alrededor de nuestra aplicación. Veremos como AngularJS soporta deep linking para mapear URLs directamente a aspectos de nuestra aplicación y como usar ngView automáticamente para desplegar contenido relevante al usuario basado en la actual URL.
+En el proximo capitulo veremos como administrar de la mejor forma la navegación alrededor de nuestra aplicación. Veremos como AngularJS soporta deep linking para mapear URLs directamente a aspectos de nuestra aplicación y como usar `ngView` automáticamente para desplegar contenido relevante al usuario basado en la actual URL.
 
 
