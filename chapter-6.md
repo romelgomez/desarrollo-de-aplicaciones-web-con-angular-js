@@ -60,9 +60,9 @@ En corto, usar la API history, podemos simular visitar recursos externos sin act
 
 Usando la API history HTML5, podemos una vez nuevamente trabajar con excelentes URLs (sin el truco `#`) en una aplicación web de una sola página y disfrutar una experiencia de usuario buena usando URLs marcables, botones adelante y atrás trabajen como se espera, etc. Las URLs del ejemplo anterior pueden ser simplemente representadas de la siguiente manera:
 
--  http://myhost.com/admin/users/list
--  http://myhost.com/admin/users/new
--  http://myhost.com/admin/users/[userId]
+-  `http://myhost.com/admin/users/list`
+-  `http://myhost.com/admin/users/new`
+-  `http://myhost.com/admin/users/[userId]`
 
 Esas URLs lucen mucho a las URLs “standard”, apuntando a recursos reales en un servidor. Esto es bueno, ya que queremos tener URLs bien parecidas o elegantes. Pero si una de esas URLs es introducida dentro de una barra de direcciones del navegador, un user agent no puede distinguir entre esta URL de cualquier otra URL y emitirá una solicitud al servidor.
 
