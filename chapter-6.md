@@ -16,7 +16,7 @@ Angular tiene sofisticada maquinaria para manejar URLs. En este capítulo, vamos
 - Organizando la navegación en una aplicación web en el lado del cliente usando el servicio `$route` (con su proveedor- `$routeProvider`) y la directiva `ngView`
 - Patrones comunes, tips, y trucos cuando uses URLs en aplicaciones web AngularJS potenciada de una sola página.
 
-### URLs en aplicaciones web de una sola-página.
+## URLs en aplicaciones web de una sola-página.
 
 La navegación entre páginas fue sencilla en los primeros días de la web. Uno podía escribir una URL en la barra de direcciones del navegador para recuperar un preciso recurso indefinido. Después de todo, un URL es usada para apuntar un solo, recurso físico (un archivo) en un servidor. Cuando una página fue cargada, podemos seguir hipervínculos para saltar entre recursos como también usar los botones adelante y atrás del navegador para movernos entre los elementos visitados.
 
@@ -68,7 +68,7 @@ Esas URLs lucen mucho a las URLs “standard”, apuntando a recursos reales en 
 
 > `NOTA` Para que modo HTML5 trabaje correctamente en tales situaciones, el servidor necesita ser configurado apropiadamente, y cooperar siempre retornado la aplicación a la página de destino. Vamos a cubrir la configuración del servidor para el modo de URLs HTML5 más adelante en este capítulo.
 
-### Usando el servicio $location
+## Usando el servicio $location
 
 Angular proporciona una capa de abstracción sobre las URLs (y su comportamiento) en el forma del servicio `$location`. Este servicio disfraza la diferencia entre el hashbang y el modo de URL HTML5 permitiéndonos, a los desarrolladores de aplicaciones, trabajar con una consistente API independientemente del navegador y del modo usado. Pero el servicio `$location` hace más, proporcionado las siguiente funciones:
 
@@ -252,7 +252,7 @@ Para empezar con,  el servicio `$location` la API proporciona una excelente envo
 
 En segundo lugar, realmente podemos apreciar las facilidades por AngularJS y sus servicios. Cualquiera que ha tratado de escribir un sistema de navegación similar en vanilla JavaScript podrá ver rápidamente que tanto ofrece el marco. Ahun, hay numerosos bits que pueden ser mejorados! Pero en lugar de continuar con este desarrollo personalizado, basado en el servicio `$location`, vamos a discutir la solución integrada de AngularJS para esos problemas de navegación relacionados: el servicio `$route`.
 
-### Usando los servicios de enrutado AngularJS integrados.
+## Usando los servicios de enrutado AngularJS integrados.
 
 El marco AngularJS tiene un servicio `$route` integrado que puede ser configurado para administrar transiciones de ruta en aplicaciones web de una sola página. Esta cubre todas las características que intentábamos trabajar a mano usando el servicio `$location` y adicionalmente ofrece otras facilidades muy útiles. Vamos a familiarizarnos con estos pasos-por-pasos.   
   
@@ -473,7 +473,7 @@ Cabe señalar que la URL en la barra de direcciones del navegador no será rever
 
 > `NOTA` La barra de direcciones del navegador y la interfaz de usuario puede quedar fuera de sincronización si la navegación de la ruta es cancelada debido a una promesa rechazada.
 
-### Limitaciones del servicio $route
+## Limitaciones del servicio $route
 
 Si bien el servicio `$route` esta muy bien elaborado y hace un excelente trabajo en muchas aplicaciones, hay casos donde se queda corto. Esta sección lista esos casos, para que podamos ser conscientes y dispuestos a cambiar el diseño de nuestra aplicación, o desplegar un servicio de enrutamiento personalizado!
 
@@ -534,7 +534,7 @@ Al cambiar entre vistas de tareas para diferentes carreras con el mismo proyecto
 
 Si bien podemos jugar con la directiva `ng-include` para tener un anidamiento correcto de los visuales elementos de la interfaz de usuario, no hay mucho que podamos hacer sobre el aumento del número de solicitudes de datos. Solo podemos tratar de asegurarnos que las repetitivas recuperación de datos del back-end sean tan rápidas como sean posibles, o almacenar en caché las llamadas posteriores a un back-end si es conveniente.
 
-### Patrones específicos de enrutamiento, consejos, y trucos.  
+## Patrones específicos de enrutamiento, consejos, y trucos.  
 
 Las secciones anteriores de este capítulo nos dieron una buena vista general de la APIs de AngularJS, relacionada a administrar la navegación en aplicaciones web de una sola página. Aquí vamos a ver ejemplos prácticos usando esas APIs, y discutir las mejores prácticas relacionadas.    
 
@@ -663,7 +663,7 @@ Un proveedor personalizado basado en esta idea probablemente varía de una aplic
 
 Esto es todo lo que se necesita para definir un conjunto completo de rutas de CRUD para una área funcional.
 
-Resumen
+## Resumen
 
 El diseño eficaz de vínculos de navegación dentro de una aplicación es de suma importancia, ya que forma la columna vertebral alrededor de la cual se envuelve toda la aplicación. Tener una sólida estructura de enlaces es importante para nuestros usuarios, de modo que puedan desplazarse fácilmente dentro de una aplicación web. Pero también es importante para nosotros, los desarrolladores, ya que nos ayuda a estructurar y organizar el código
 
